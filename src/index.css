@@ -4,6 +4,21 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --black: 0 1 18;
+    --very-dark-gray: 32 33 44;
+    --dark-gray: 43 44 55;
+    --lines-dark: 62 63 78;
+    --medium-gray: 130 143 163;
+    --lines-light: 228 235 250;
+    --light-gray: 244 247 253;
+    --white: 255 255 255;
+    --main-purple: 99 95 199;
+    --main-purple-hover: 168 164 255;
+    --red: 234 85 85;
+    --red-hover: 255 152 152;
+  }
+
   body {
     @apply font-jakarta font-medium;
   }
