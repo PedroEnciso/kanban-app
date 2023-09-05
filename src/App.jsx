@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>Kanban App</h1>
+      <h1 className="">Kanban App</h1>
     </>
   );
 }
