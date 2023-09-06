@@ -5,7 +5,7 @@ import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 
 function Nav() {
   return (
-    <nav className="px-4 py-5 flex justify-between items-center">
+    <nav className="px-4 py-5 flex justify-between items-center bg-white">
       <div className="flex gap-4">
         <div>
           <img src={logo} alt="KanBan logo." />
