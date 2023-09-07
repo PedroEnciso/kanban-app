@@ -11,7 +11,7 @@ function DisplayedBoard({ board }) {
   if (board.columns.length === 0) return <EmptyBoardMessage />;
 
   return (
-    <div className="flex gap-6 px-4">
+    <div className="flex gap-6 px-4 overflow-x-scroll">
       {board.columns.map((column) => (
         <Column key={column.name} column={column} />
       ))}
