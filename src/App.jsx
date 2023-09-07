@@ -9,7 +9,7 @@ import boardData from "./data.js";
 function App() {
   const [boards, setBoards] = useState(boardData.boards);
   const [displayedBoard, setDisplayedBoard] = useState(boardData.boards[0]);
-  console.log(boardData.boards[0]);
+
   return (
     <Layout>
       <Nav />
