@@ -1,24 +1,38 @@
 import React from "react";
 
 import ellipses from "../assets/icon-vertical-ellipsis.svg";
+import HeadingL from "./UI/Typography/HeadingL";
+import BodyL from "./UI/Typography/BodyL";
+import BodyM from "./UI/Typography/BodyM";
+import SubtaskContainer from "./Subtasks/SubtaskContainer";
 
 function TaskFocusView({ task, completedSubtasks, totalSubtasks }) {
+  let taskDescription = task.description;
+  if (!task.description) {
+    taskDescription = "This task does not have a description yet.";
+  }
+
+  function stopPropagation(e) {
+    e.stopPropagation();
+  }
   return (
-    <div>
-      <div className="flex gap-4 items-center">
-        <h4 className="">{task.title}</h4>
-        <button className="w-2 h-4">
-          <img src={ellipses} alt="" className="w-full" />
+    <div onClick={stopPropagation} className="flex flex-col gap-5">
+      <div className="flex gap-4 items-center justify-between">
+        <h4 className="">
+          <HeadingL>{task.title}</HeadingL>
+        </h4>
+        <button className="w-fit shrink-0">
+          <img
+            src={ellipses}
+            alt=""
+            className="w-[4px] h-[16px] sm:w-auto sm:h-auto"
+          />
         </button>
       </div>
-      <p>{task.description}</p>
-      <div>
-        <p>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</p>
-        {task.subtasks.map((sub) => (
-          <div>
-            <p className={sub.isCompleted ? "line-through" : ""}>{sub.title}</p>
-          </div>
-        ))}
+      <BodyL>{taskDescription}</BodyL>
+      <div className="space-y-3">
+        <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
+        <SubtaskContainer subtasks={task.subtasks} />
       </div>
       <div>
         <p>Current Status</p>
