@@ -34,7 +34,7 @@ function Task({ task }) {
         </BodyM>
       </li>
       {isShowingFocusedView && (
-        <Modal close={clickHandler}>
+        <Modal onModalClose={clickHandler}>
           <TaskFocusView
             task={task}
             totalSubtasks={totalSubtasks}

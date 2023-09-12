@@ -18,9 +18,9 @@ function TaskFocusView({ task, completedSubtasks, totalSubtasks }) {
   return (
     <div onClick={stopPropagation} className="flex flex-col gap-5">
       <div className="flex gap-4 items-center justify-between">
-        <h4 className="">
+        <h1 className="">
           <HeadingL>{task.title}</HeadingL>
-        </h4>
+        </h1>
         <button className="w-fit shrink-0">
           <img
             src={ellipses}
