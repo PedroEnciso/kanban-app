@@ -20,7 +20,7 @@
   }
 
   body {
-    @apply font-jakarta font-medium;
+    @apply font-jakarta font-medium bg-lightGray dark:bg-veryDarkGray;
   }
 
   .select {
