@@ -47,7 +47,10 @@ function Modal({ children, onModalClose }) {
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white rounded-md p-6 max-w-[480px]" ref={modalRef}>
+      <div
+        className="bg-white dark:bg-darkGray rounded-md p-6 max-w-[480px]"
+        ref={modalRef}
+      >
         {children}
       </div>
     </div>,
