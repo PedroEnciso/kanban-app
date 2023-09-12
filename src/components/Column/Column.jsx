@@ -1,7 +1,7 @@
-import HeadingS from "./UI/Typography/HeadingS";
-import Task from "./Task";
+import HeadingS from "../UI/Typography/HeadingS";
+import Task from "../Tasks/Task";
 
-function Column({ column }) {
+function Column({ column, columnList }) {
   return (
     <div>
       <h2>
@@ -11,7 +11,7 @@ function Column({ column }) {
       </h2>
       <ul className="mt-6 flex flex-col gap-6">
         {column.tasks.map((task) => (
-          <Task key={task.title} task={task} />
+          <Task key={task.title} task={task} columnList={columnList} />
         ))}
       </ul>
     </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Nav from "./components/Nav/Nav";
 import Layout from "./components/Layout/Layout";
-import DisplayedBoard from "./components/DisplayedBoard";
+import ColumnContainer from "./components/Column/ColumnContainer";
 
 import boardData from "./data.js";
 
@@ -13,7 +13,7 @@ function App() {
   return (
     <Layout>
       <Nav />
-      <DisplayedBoard board={displayedBoard} />
+      <ColumnContainer board={displayedBoard} />
     </Layout>
   );
 }

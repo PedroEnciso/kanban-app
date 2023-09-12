@@ -1,12 +1,13 @@
 import React from "react";
 
-import ellipses from "../assets/icon-vertical-ellipsis.svg";
-import HeadingL from "./UI/Typography/HeadingL";
-import BodyL from "./UI/Typography/BodyL";
-import BodyM from "./UI/Typography/BodyM";
-import SubtaskContainer from "./Subtasks/SubtaskContainer";
+import ellipses from "../../assets/icon-vertical-ellipsis.svg";
+import HeadingL from "../UI/Typography/HeadingL";
+import BodyL from "../UI/Typography/BodyL";
+import BodyM from "../UI/Typography/BodyM";
+import SubtaskContainer from "../Subtasks/SubtaskContainer";
+import Select from "../UI/Select";
 
-function TaskFocusView({ task, completedSubtasks, totalSubtasks }) {
+function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
   let taskDescription = task.description;
   if (!task.description) {
     taskDescription = "This task does not have a description yet.";
@@ -34,11 +35,12 @@ function TaskFocusView({ task, completedSubtasks, totalSubtasks }) {
         <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
         <SubtaskContainer subtasks={task.subtasks} />
       </div>
-      <div>
-        <p>Current Status</p>
+      <div className="space-y-2 relative">
+        <BodyM>Current Status</BodyM>
+        <Select defaultValue={task.status} optionList={columnList} />
       </div>
     </div>
   );
 }
 
-export default TaskFocusView;
+export default ViewTask;

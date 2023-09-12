@@ -22,4 +22,11 @@
   body {
     @apply font-jakarta font-medium;
   }
+
+  .select {
+    background-image: url("./assets/icon-chevron-down.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-position: calc(100% - 16px) center;
+  }
 }

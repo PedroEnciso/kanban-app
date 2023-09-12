@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import Modal from "./UI/Modal";
-import TaskFocusView from "./TaskFocusView";
-import HeadingM from "./UI/Typography/HeadingM";
-import BodyM from "./UI/Typography/BodyM";
+import Modal from "../UI/Modal";
+import ViewTask from "./ViewTask";
+import HeadingM from "../UI/Typography/HeadingM";
+import BodyM from "../UI/Typography/BodyM";
 
-function Task({ task }) {
+function Task({ task, columnList }) {
   const [isShowingFocusedView, setIsShowingFocusedView] = useState(false);
 
   let totalSubtasks = 0;
@@ -35,10 +35,11 @@ function Task({ task }) {
       </li>
       {isShowingFocusedView && (
         <Modal onModalClose={clickHandler}>
-          <TaskFocusView
+          <ViewTask
             task={task}
             totalSubtasks={totalSubtasks}
             completedSubtasks={completedSubtasks}
+            columnList={columnList}
           />
         </Modal>
       )}
