@@ -6,6 +6,10 @@ import ColumnContainer from "./components/Column/ColumnContainer";
 
 import boardData from "./data.js";
 
+const emptyData = {
+  columns: [],
+};
+
 function App() {
   const [boards, setBoards] = useState(boardData.boards);
   const [displayedBoard, setDisplayedBoard] = useState(boardData.boards[0]);
