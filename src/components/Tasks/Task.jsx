@@ -24,7 +24,7 @@ function Task({ task, columnList }) {
     <>
       <li
         onClick={clickHandler}
-        className="w-[280px] bg-white px-4 py-6 rounded-lg drop-shadow-md"
+        className="w-[280px] bg-white dark:bg-darkGray px-4 py-6 rounded-lg shadow-md dark:shadow-[#364E7E]/10"
       >
         <h3 className="pb-2">
           <HeadingM>{task.title}</HeadingM>
