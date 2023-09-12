@@ -10,13 +10,13 @@ function SubTaskCheckbox({ subtask }) {
   };
 
   return (
-    <div className="flex px-3 py-3 gap-3 rounded bg-lightGray hover:bg-mainPurple/25">
+    <div className="flex px-3 py-3 gap-3 rounded bg-lightGray dark:bg-veryDarkGray hover:bg-mainPurple/25">
       <input
         type="checkbox"
         name={subtask.title}
         checked={isChecked}
         onChange={handleOnChange}
-        className="appearance-none peer w-4 h-4 border border-mediumGray/25 rounded-sm bg-white focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-mainPurple checked:bg-mainPurple checked:border-0"
+        className="appearance-none peer w-4 h-4 border border-mediumGray/25 rounded-sm bg-white dark:bg-darkGray focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-mainPurple checked:bg-mainPurple dark:checked:bg-mainPurple checked:border-0"
       />
       <label htmlFor={subtask.title} onClick={handleOnChange} className="grow">
         <BodyM lineThrough={isChecked} color={!isChecked ? "black" : ""}>
