@@ -9,9 +9,6 @@ function SubtaskContainer({ subtasks }) {
         <li key={sub.title}>
           <SubTaskCheckbox subtask={sub} />
         </li>
-        // <div >
-        //   <p className={sub.isCompleted ? "line-through" : ""}>{sub.title}</p>
-        // </div>
       ))}
     </ul>
   );
