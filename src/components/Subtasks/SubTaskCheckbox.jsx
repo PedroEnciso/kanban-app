@@ -10,7 +10,7 @@ function SubTaskCheckbox({ subtask }) {
   };
 
   return (
-    <div className="flex px-3 py-3 gap-3 rounded bg-lightGray dark:bg-veryDarkGray hover:bg-mainPurple/25">
+    <div className="flex px-3 py-3 gap-3 rounded bg-lightGray dark:bg-veryDarkGray hover:bg-mainPurple/25 dark:hover:bg-mainPurple/25">
       <input
         type="checkbox"
         name={subtask.title}
@@ -19,7 +19,12 @@ function SubTaskCheckbox({ subtask }) {
         className="appearance-none peer w-4 h-4 border border-mediumGray/25 rounded-sm bg-white dark:bg-darkGray focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-mainPurple checked:bg-mainPurple dark:checked:bg-mainPurple checked:border-0"
       />
       <label htmlFor={subtask.title} onClick={handleOnChange} className="grow">
-        <BodyM extraClasses={isChecked ? "line-through text-mediumGray" : ""}>
+        <BodyM
+          extraClasses={isChecked && "line-through"}
+          textColor={
+            !isChecked ? "text-black dark:text-white" : "text-mediumGray"
+          }
+        >
           {subtask.title}
         </BodyM>
       </label>
