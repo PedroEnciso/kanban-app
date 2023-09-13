@@ -1,15 +1,7 @@
 import React from "react";
 
-function BodyM({ children, lineThrough, color }) {
-  let classes = "text-mediumGray font-bold text-xs leading-tight";
-
-  if (color) {
-    classes = `text-${color} font-bold text-xs leading-tight`;
-  }
-
-  if (lineThrough) {
-    classes = `${classes} line-through`;
-  }
+function BodyM({ children, extraClasses }) {
+  let classes = `${extraClasses} font-bold text-xs leading-tight`;
 
   return <p className={classes}>{children}</p>;
 }
