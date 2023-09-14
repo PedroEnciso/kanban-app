@@ -19,9 +19,9 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
   return (
     <div onClick={stopPropagation} className="flex flex-col gap-5">
       <div className="flex gap-4 items-center justify-between">
-        <h1 className="">
+        <h2 className="">
           <HeadingL>{task.title}</HeadingL>
-        </h1>
+        </h2>
         <button className="w-fit shrink-0">
           <img
             src={ellipses}
@@ -35,7 +35,7 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
         <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
         <SubtaskContainer subtasks={task.subtasks} />
       </div>
-      <div className="space-y-2 relative">
+      <div className="space-y-2">
         <BodyM>Current Status</BodyM>
         <Select defaultValue={task.status} optionList={columnList} />
       </div>

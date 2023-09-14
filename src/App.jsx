@@ -12,12 +12,16 @@ const emptyData = {
 
 function App() {
   const [boards, setBoards] = useState(boardData.boards);
-  const [displayedBoard, setDisplayedBoard] = useState(boardData.boards[0]);
+  const [displayedBoardIndex, setDisplayedBoardIndex] = useState(0);
 
   return (
     <Layout>
-      <Nav />
-      <ColumnContainer board={displayedBoard} />
+      <Nav
+        updateBoardData={setBoards}
+        boardData={boards}
+        boardIndex={displayedBoardIndex}
+      />
+      <ColumnContainer board={boards[displayedBoardIndex]} />
     </Layout>
   );
 }
