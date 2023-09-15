@@ -2,7 +2,7 @@ import React from "react";
 
 function Input({ name = "", type = "text", placeholder = "", value = "" }) {
   const classes =
-    "w-full py-2 px-4 border border-mediumGray/25 rounded font-medium text-sm leading-relaxed placeholder-black/25";
+    "w-full py-2 px-4 dark:bg-darkGray border border-mediumGray/25 rounded font-medium text-sm leading-relaxed placeholder-black/25 dark:placeholder-white/25";
 
   if (type === "textarea") {
     return (

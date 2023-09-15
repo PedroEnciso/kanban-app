@@ -29,7 +29,7 @@ function Task({ task, columnList }) {
         <h3 className="pb-2">
           <HeadingM>{task.title}</HeadingM>
         </h3>
-        <BodyM>
+        <BodyM textColor="text-mediumGray">
           {completedSubtasks} of {totalSubtasks} subtasks
         </BodyM>
       </li>
