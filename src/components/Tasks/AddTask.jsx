@@ -1,11 +1,16 @@
+import { useContext } from "react";
+
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyM from "../UI/Typography/BodyM";
 import Select from "../UI/Select";
 import FormBlock from "../UI/Forms/FormBlock";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
 import AddSubtasks from "../Subtasks/AddSubtasks";
+import BoardContext from "../../store/board-context";
 
-function AddTask({ optionList }) {
+function AddTask() {
+  const boardCtx = useContext(BoardContext);
+
   function stopPropagation(e) {
     e.stopPropagation();
   }
@@ -34,7 +39,7 @@ function AddTask({ optionList }) {
       <AddSubtasks />
       <div className="space-y-2">
         <BodyM>Status</BodyM>
-        <Select optionList={optionList} />
+        <Select optionList={boardCtx.displayColumnNames} />
       </div>
       <ButtonPrimary
         type="submit"

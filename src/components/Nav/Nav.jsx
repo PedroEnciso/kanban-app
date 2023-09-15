@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "../UI/Modal";
 import AddTask from "../Tasks/AddTask";
+import BoardContext from "../../store/board-context";
 
 import logo from "../../assets/logo-mobile.svg";
 import chevronDown from "../../assets/icon-chevron-down.svg";
 import plus from "../../assets/icon-add-task-mobile.svg";
 import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 
-function Nav({ updateBoardData, boardData, boardIndex }) {
+function Nav() {
   const [isShowingModal, setIsShowingModal] = useState(false);
+  const boardCtx = useContext(BoardContext);
 
   const handleToggleModal = () => {
     setIsShowingModal((prev) => !prev);
   };
-
-  const columnNames = boardData[boardIndex].columns.map((col) => col.name);
 
   return (
     <>
@@ -31,7 +31,7 @@ function Nav({ updateBoardData, boardData, boardIndex }) {
         <div className="flex gap-4 items-center">
           <button
             className="bg-mainPurple hover:bg-mainPurpleHover disabled:bg-mainPurple/25 px-4 py-2.5 rounded-2xl"
-            disabled={!boardData}
+            disabled={boardCtx.boards.length === 0}
             onClick={handleToggleModal}
           >
             <img src={plus} alt="Add a task." />
@@ -43,7 +43,7 @@ function Nav({ updateBoardData, boardData, boardIndex }) {
       </nav>
       {isShowingModal && (
         <Modal onModalClose={handleToggleModal}>
-          <AddTask optionList={columnNames} />
+          <AddTask />
         </Modal>
       )}
     </>

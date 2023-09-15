@@ -1,18 +1,25 @@
+import { useContext } from "react";
 import EmptyBoardMessage from "./EmptyBoardMessage";
 import Column from "./Column";
+import BoardContext from "../../store/board-context";
 
-function DisplayedBoard({ board }) {
-  if (board.columns.length === 0) return <EmptyBoardMessage />;
+function ColumnContainer() {
+  const boardCtx = useContext(BoardContext);
+  const { displayColumnNames, boards, displayBoardIndex } = boardCtx;
 
-  const columnList = board.columns.map((column) => column.name);
+  if (displayColumnNames.length === 0) return <EmptyBoardMessage />;
 
   return (
     <div className="flex gap-6 px-4 overflow-x-scroll">
-      {board.columns.map((column) => (
-        <Column key={column.name} column={column} columnList={columnList} />
+      {boards[displayBoardIndex].columns.map((column) => (
+        <Column
+          key={column.name}
+          column={column}
+          columnList={displayColumnNames}
+        />
       ))}
     </div>
   );
 }
 
-export default DisplayedBoard;
+export default ColumnContainer;
