@@ -39,7 +39,7 @@ function AddTask() {
       <AddSubtasks />
       <div className="space-y-2">
         <BodyM>Status</BodyM>
-        <Select optionList={boardCtx.displayColumnNames} />
+        <Select optionList={boardCtx.displayColumns} />
       </div>
       <ButtonPrimary
         type="submit"
