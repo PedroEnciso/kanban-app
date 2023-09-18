@@ -6,7 +6,7 @@ function SubtaskContainer({ subtasks }) {
   return (
     <ul className="space-y-2">
       {subtasks.map((sub) => (
-        <li key={sub.title}>
+        <li key={sub.id}>
           <SubTaskCheckbox subtask={sub} />
         </li>
       ))}

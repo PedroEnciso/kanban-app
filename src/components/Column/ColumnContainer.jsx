@@ -13,7 +13,7 @@ function ColumnContainer() {
     <div className="flex gap-6 px-4 overflow-x-scroll">
       {boards[displayBoardIndex].columns.map((column) => (
         <Column
-          key={column.name}
+          key={column.id}
           column={column}
           columnList={displayColumnNames}
         />
