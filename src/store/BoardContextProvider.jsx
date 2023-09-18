@@ -10,8 +10,8 @@ const EMPTY_DATA = {
 };
 
 const BoardDataReducer = (state, action) => {
-  if (action === "ADD_TASK") {
-    console.log(`Adding task to col ${action.columnId}`, task);
+  if (action.type === "ADD_TASK") {
+    console.log(`Adding task to col ${action.columnId}`, action.task);
     return DUMMY_DATA;
   }
 

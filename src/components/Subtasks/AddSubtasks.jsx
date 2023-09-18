@@ -1,18 +1,36 @@
-import React from "react";
+import { useState } from "react";
 
 import Input from "../UI/Forms/Input";
 import BodyM from "../UI/Typography/BodyM";
+import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
 
-const subtaskPlaceholder = [
-  { title: "e.g. Make coffee", isComplete: false },
-  { title: "e.g. Drink coffee and smile", isComplete: false },
+const subArray = [
+  { title: "", placeholder: "e.g. Make coffee" },
+  { title: "", placeholder: "e.g. Drink coffee and smile" },
 ];
 
-function AddSubtasks({ subtasks = subtaskPlaceholder }) {
-  // placeholder will store a boolean; true if the subtask array being used is the placeholder array
-  // use this to determine if the title should be displayed as placeholder text
-  const placeholder =
-    JSON.stringify(subtasks) === JSON.stringify(subtaskPlaceholder);
+const emptySubtask = {
+  title: "",
+  placeholder: "New subtask",
+};
+
+function AddSubtasks({ prevSubtasks = null, register }) {
+  const [subtasks, setSubtasks] = useState(prevSubtasks || subArray);
+
+  const handleNewSubtask = (e) => {
+    e.preventDefault();
+    setSubtasks((prev) => [...prev, emptySubtask]);
+  };
+
+  const handleRemoveSubtask = (e, index) => {
+    e.preventDefault();
+    setSubtasks((prev) => {
+      let update = [...prev];
+      update.splice(index, 1);
+      return update;
+    });
+  };
+
   return (
     <fieldset className="space-y-2">
       <legend>
@@ -20,13 +38,16 @@ function AddSubtasks({ subtasks = subtaskPlaceholder }) {
       </legend>
       {subtasks.map((sub, index) => (
         <div key={`s${index}`} className="flex gap-4">
-          {placeholder && (
-            <Input name={`s${index}`} type="text" placeholder={sub.title} />
-          )}
-          {!placeholder && (
-            <Input name={`s${index}`} type="text" value={sub.title} />
-          )}
-          <button className="shrink-0">
+          <Input
+            register={register}
+            name={`subtask${index}`}
+            type="text"
+            placeholder={sub.placeholder || "New placeholder"}
+          />
+          <button
+            onClick={(e) => handleRemoveSubtask(e, index)}
+            className="shrink-0"
+          >
             <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
               <g fill="#828FA3" fillRule="evenodd">
                 <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z" />
@@ -36,6 +57,13 @@ function AddSubtasks({ subtasks = subtaskPlaceholder }) {
           </button>
         </div>
       ))}
+      <div className="pt-1">
+        <ButtonPrimary
+          text="+Add New Subtask"
+          buttonType="secondary"
+          onButtonClick={handleNewSubtask}
+        />
+      </div>
     </fieldset>
   );
 }

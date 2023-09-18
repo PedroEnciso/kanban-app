@@ -43,7 +43,7 @@ function Nav() {
       </nav>
       {isShowingModal && (
         <Modal onModalClose={handleToggleModal}>
-          <AddTask />
+          <AddTask onModalClose={handleToggleModal} />
         </Modal>
       )}
     </>

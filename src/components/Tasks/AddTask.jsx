@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useForm } from "react-hook-form";
 
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyM from "../UI/Typography/BodyM";
@@ -8,19 +9,55 @@ import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
 import AddSubtasks from "../Subtasks/AddSubtasks";
 import BoardContext from "../../store/board-context";
 
-function AddTask() {
+function AddTask({ onModalClose }) {
   const boardCtx = useContext(BoardContext);
+  const { displayColumns, addTask } = boardCtx;
+
+  const { register, handleSubmit } = useForm();
 
   function stopPropagation(e) {
     e.stopPropagation();
   }
 
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    console.log("Added task.");
+  const findStatusName = (id) => {
+    let status = displayColumns.filter((col) => col.id === id);
+    return status[0].name;
+  };
+
+  const createSubtaskArray = (formData) => {
+    const subtaskArray = [];
+    let count = 1;
+    for (const key in formData) {
+      if (key.includes("subtask") && formData[key] !== "") {
+        subtaskArray.push({
+          id: `s${count}${Date.now()}`,
+          title: formData[key],
+          isCompleted: false,
+        });
+        count++;
+      }
+    }
+    return subtaskArray;
+  };
+
+  const onSubmit = (data) => {
+    const newTask = {
+      id: `t${Date.now()}`,
+      name: data.title,
+      description: data.description,
+      status: findStatusName(data.status),
+      subtasks: createSubtaskArray(data),
+    };
+    console.log("data", data);
+    addTask(newTask, data.status);
+    onModalClose();
   };
   return (
-    <form onClick={stopPropagation} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      onClick={stopPropagation}
+      className="flex flex-col gap-6"
+    >
       <h2>
         <HeadingL>Add New Task</HeadingL>
       </h2>
@@ -29,23 +66,25 @@ function AddTask() {
         label="Title"
         type="text"
         placeholder="e.g. Take a coffee break"
+        register={register}
       />
       <FormBlock
         name="description"
         label="Description"
         type="textarea"
         placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+        register={register}
       />
-      <AddSubtasks />
+      <AddSubtasks register={register} />
       <div className="space-y-2">
         <BodyM>Status</BodyM>
-        <Select optionList={boardCtx.displayColumns} />
+        <Select
+          name="status"
+          optionList={boardCtx.displayColumns}
+          register={register}
+        />
       </div>
-      <ButtonPrimary
-        type="submit"
-        text="Create Task"
-        onButtonClick={handleAddTask}
-      />
+      <ButtonPrimary type="submit" text="Create Task" />
     </form>
   );
 }

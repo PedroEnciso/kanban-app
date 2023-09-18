@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input({ name = "", type = "text", placeholder = "", value = "" }) {
+function Input({ name = "", type = "text", placeholder = "", register }) {
   const classes =
     "w-full py-2 px-4 dark:bg-darkGray border border-linesLight dark:border-linesDark rounded font-medium text-sm leading-relaxed placeholder-black/25 dark:placeholder-white/25";
 
@@ -13,7 +13,7 @@ function Input({ name = "", type = "text", placeholder = "", value = "" }) {
         cols="30"
         rows="4"
         placeholder={placeholder}
-        value={value}
+        {...register(name)}
       ></textarea>
     );
   }
@@ -23,7 +23,7 @@ function Input({ name = "", type = "text", placeholder = "", value = "" }) {
       name={name}
       type={type}
       placeholder={placeholder}
-      value={value}
+      {...register(name)}
     />
   );
 }
