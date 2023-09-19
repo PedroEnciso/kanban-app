@@ -42,13 +42,12 @@ function AddTask({ onModalClose }) {
 
   const onSubmit = (data) => {
     const newTask = {
-      id: `t${Date.now()}`,
-      name: data.title,
+      id: `t${Math.random()}`,
+      title: data.title,
       description: data.description,
       status: findStatusName(data.status),
       subtasks: createSubtaskArray(data),
     };
-    console.log("data", data);
     addTask(newTask, data.status);
     onModalClose();
   };

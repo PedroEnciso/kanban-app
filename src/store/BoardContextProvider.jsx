@@ -3,16 +3,27 @@ import { useEffect, useState, useReducer } from "react";
 import BoardContext from "./board-context";
 import data from "../data";
 
-const DUMMY_DATA = data.boards;
+const DUMMY_STATE = {
+  boards: data.boards,
+  displayBoardIndex: 0,
+};
 
 const EMPTY_DATA = {
   boards: [],
+  displayBoardIndex: 0,
 };
 
-const BoardDataReducer = (state, action) => {
+const boardDataReducer = (state, action) => {
   if (action.type === "ADD_TASK") {
     console.log(`Adding task to col ${action.columnId}`, action.task);
-    return DUMMY_DATA;
+    const updatedBoard = [...state.boards];
+    let currentBoardColumns = updatedBoard[state.displayBoardIndex].columns;
+    let columnIndex = currentBoardColumns.findIndex(
+      (col) => col.id === action.columnId
+    );
+    currentBoardColumns[columnIndex].tasks.push(action.task);
+    console.log(updatedBoard);
+    return { boards: updatedBoard, displayBoardIndex: state.displayBoardIndex };
   }
 
   return EMPTY_DATA;
@@ -20,15 +31,15 @@ const BoardDataReducer = (state, action) => {
 
 function BoardContextProvider({ children }) {
   const [boardData, dispatchBoardData] = useReducer(
-    BoardDataReducer,
-    DUMMY_DATA
+    boardDataReducer,
+    DUMMY_STATE
   );
-  // const [boardData, setBoardData] = useState(DUMMY_DATA);
-  const [displayBoardIndex, setdisplayBoardIndex] = useState(0);
+
+  const { boards, displayBoardIndex } = boardData;
 
   let displayColumns = [];
-  if (boardData.length > 0) {
-    displayColumns = boardData[displayBoardIndex].columns.map((col) => {
+  if (boards.length > 0) {
+    displayColumns = boards[displayBoardIndex].columns.map((col) => {
       return { name: col.name, id: col.id };
     });
   }
@@ -38,7 +49,7 @@ function BoardContextProvider({ children }) {
   };
 
   const boardContext = {
-    boards: boardData,
+    boards: boards,
     displayBoardIndex: displayBoardIndex,
     displayColumns: displayColumns,
     addTask: addTaskHandler,
