@@ -1,6 +1,12 @@
 import React from "react";
 
-function Select({ defaultValue = "", optionList, register = null, name }) {
+function Select({
+  defaultValue = "",
+  optionList,
+  register = null,
+  name,
+  onStatusChange = null,
+}) {
   return (
     <>
       <select

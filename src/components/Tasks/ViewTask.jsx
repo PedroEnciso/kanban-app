@@ -1,4 +1,5 @@
-import React from "react";
+import { useEffect, useContext } from "react";
+import { useForm } from "react-hook-form";
 
 import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 import HeadingL from "../UI/Typography/HeadingL";
@@ -6,8 +7,36 @@ import BodyL from "../UI/Typography/BodyL";
 import BodyM from "../UI/Typography/BodyM";
 import SubtaskContainer from "../Subtasks/SubtaskContainer";
 import Select from "../UI/Select";
+import BoardContext from "../../store/board-context";
 
 function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
+  const boardCtx = useContext(BoardContext);
+  const { register, watch } = useForm();
+
+  console.log(columnList);
+  const currentColumn = columnList.filter((col) => task.status === col.name);
+  let currentStatus = currentColumn[0].id;
+
+  const onClose = (status) => {
+    if (status === currentStatus) {
+      return;
+    }
+    boardCtx.updateTask(task, status);
+  };
+
+  useEffect(() => {
+    let status;
+    const sub = watch((data) => {
+      status = data;
+    });
+    return () => {
+      if (status) {
+        onClose(status.status);
+      }
+      sub.unsubscribe();
+    };
+  }, [watch]);
+
   let taskDescription = task.description;
   if (!task.description) {
     taskDescription = "This task does not have a description yet.";
@@ -35,10 +64,16 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
         <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
         <SubtaskContainer subtasks={task.subtasks} />
       </div>
-      <div className="space-y-2">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
         <BodyM>Current Status</BodyM>
-        <Select defaultValue={task.status} optionList={columnList} />
-      </div>
+        <Select
+          onStatusChange={onClose}
+          name="status"
+          register={register}
+          defaultValue={task.status.id}
+          optionList={columnList}
+        />
+      </form>
     </div>
   );
 }
