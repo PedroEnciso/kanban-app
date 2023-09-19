@@ -48,7 +48,7 @@ function Modal({ children, onModalClose }) {
       aria-modal="true"
     >
       <div
-        className="bg-white dark:bg-darkGray rounded-md p-6 w-full max-w-[480px]"
+        className="bg-white dark:bg-darkGray rounded-md p-6 w-full max-w-[480px] max-h-[80vh] sm:max-h-[700px] overflow-y-scroll"
         ref={modalRef}
       >
         {children}
