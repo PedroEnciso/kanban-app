@@ -70,7 +70,7 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
           onStatusChange={onClose}
           name="status"
           register={register}
-          defaultValue={task.status.id}
+          defaultValue={currentStatus}
           optionList={columnList}
         />
       </form>
