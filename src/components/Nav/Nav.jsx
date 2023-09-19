@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import Modal from "../UI/Modal";
 import AddTask from "../Tasks/AddTask";
 import BoardContext from "../../store/board-context";
+import SelectBoardContainer from "../SelectBoard/SelectBoardContainer";
 
 import logo from "../../assets/logo-mobile.svg";
 import chevronDown from "../../assets/icon-chevron-down.svg";
@@ -10,6 +11,7 @@ import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 
 function Nav() {
   const [isShowingModal, setIsShowingModal] = useState(false);
+  const [isShowingSelectBoard, setIsShowingSelectBoard] = useState(true);
   const boardCtx = useContext(BoardContext);
 
   const handleToggleModal = () => {
@@ -27,6 +29,7 @@ function Nav() {
             <span> Platform launched</span>
             <img src={chevronDown} alt="View boards." />
           </button>
+          {isShowingSelectBoard && <SelectBoardContainer />}
         </div>
         <div className="flex gap-4 items-center">
           <button
