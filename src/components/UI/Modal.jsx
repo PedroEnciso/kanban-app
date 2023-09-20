@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-function Modal({ children, onModalClose }) {
+function Modal({ children, onModalClose, isNavModal = false }) {
   // add a key listener to component only while mounted
   useEffect(() => {
     function keyListener(e) {
@@ -40,6 +40,13 @@ function Modal({ children, onModalClose }) {
     [9, handleTabKey],
   ]);
 
+  let overlayClasses =
+    "rounded-md p-6 w-full max-w-[480px] max-h-[80vh] sm:max-h-[700px] overflow-y-scroll";
+  if (isNavModal) {
+    overlayClasses =
+      "absolute top-0 left-[56px] min-w-[264px] mt-[88px] py-4 pr-6 bg-white dark:bg-darkGray rounded-lg text-left";
+  }
+
   return createPortal(
     <div
       onClick={onModalClose}
@@ -48,7 +55,8 @@ function Modal({ children, onModalClose }) {
       aria-modal="true"
     >
       <div
-        className="bg-white dark:bg-darkGray rounded-md p-6 w-full max-w-[480px] max-h-[80vh] sm:max-h-[700px] overflow-y-scroll"
+        onClick={(e) => e.stopPropagation()}
+        className={`bg-white dark:bg-darkGray ${overlayClasses}`}
         ref={modalRef}
       >
         {children}
