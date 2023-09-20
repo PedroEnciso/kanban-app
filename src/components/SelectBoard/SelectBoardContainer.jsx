@@ -4,11 +4,15 @@ import BoardItem from "./BoardItem";
 import HeadingS from "../UI/Typography/HeadingS";
 import BoardContext from "../../store/board-context";
 
-function SelectBoardContainer() {
-  const { boards, displayBoardIndex } = useContext(BoardContext);
+function SelectBoardContainer({ onClose }) {
+  const { boards, displayBoardIndex, updateDisplayIndex } = useContext(
+    BoardContext
+  );
 
   const handleChangeBoard = (index) => {
     console.log("changing displayBoardIndex to " + index);
+    updateDisplayIndex(index);
+    onClose();
   };
 
   const boardItems = boards.map((board, index) => (
