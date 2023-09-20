@@ -75,6 +75,13 @@ const boardDataReducer = (state, action) => {
     };
   }
 
+  if (action.type === "UPDATE_BOARD_INDEX") {
+    return {
+      boards: state.boards,
+      displayBoardIndex: action.index,
+    };
+  }
+
   return EMPTY_DATA;
 };
 
@@ -101,13 +108,19 @@ function BoardContextProvider({ children }) {
     dispatchBoardData({ type: "UPDATE_TASK", task: task, columnId: columnId });
   };
 
+  const updateDisplayIndexHandler = (index) => {
+    dispatchBoardData({ type: "UPDATE_BOARD_INDEX", index: index });
+  };
+
   const boardContext = {
     boards: boards,
     displayBoardIndex: displayBoardIndex,
     displayColumns: displayColumns,
     addTask: addTaskHandler,
     updateTask: updateTaskHandler,
+    updateDisplayIndex: updateDisplayIndexHandler,
   };
+
   return (
     <BoardContext.Provider value={boardContext}>
       {children}
