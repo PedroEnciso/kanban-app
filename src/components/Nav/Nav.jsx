@@ -12,9 +12,13 @@ import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 
 function Nav() {
   const [isShowingModal, setIsShowingModal] = useState(false);
-  const [isShowingSelectBoard, setIsShowingSelectBoard] = useState(true);
+  const [isShowingSelectBoard, setIsShowingSelectBoard] = useState(false);
   const boardCtx = useContext(BoardContext);
   const { boards, displayBoardIndex } = boardCtx;
+
+  const handleToggleSelectBoard = (e) => {
+    setIsShowingSelectBoard((prev) => !prev);
+  };
 
   const handleToggleModal = () => {
     setIsShowingModal((prev) => !prev);
@@ -27,11 +31,18 @@ function Nav() {
           <div>
             <img src={logo} alt="KanBan logo." />
           </div>
-          <button className="flex items-center gap-2">
+          <button
+            onClick={handleToggleSelectBoard}
+            className="flex items-center gap-2 relative"
+          >
             <span>{boards[displayBoardIndex].name}</span>
             <img src={chevronDown} alt="View boards." />
+            {isShowingSelectBoard && (
+              <Modal isNavModal={true}>
+                <SelectBoardContainer onClose={handleToggleSelectBoard} />
+              </Modal>
+            )}
           </button>
-          {isShowingSelectBoard && <SelectBoardContainer />}
         </div>
         <div className="flex gap-4 items-center">
           <button
