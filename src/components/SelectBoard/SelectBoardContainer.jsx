@@ -15,12 +15,16 @@ function SelectBoardContainer({ onClose }) {
     onClose();
   };
 
+  const handleNewBoard = () => {
+    console.log("adding new board");
+  };
+
   const boardItems = boards.map((board, index) => (
     <BoardItem
       key={board.id}
       name={board.name}
       onSelectBoard={handleChangeBoard.bind(null, index)}
-      selected={index === displayBoardIndex}
+      type={index === displayBoardIndex && "selected"}
     />
   ));
 
@@ -29,7 +33,14 @@ function SelectBoardContainer({ onClose }) {
       <h2 className="pl-6">
         <HeadingS>All Boards ({boards.length})</HeadingS>
       </h2>
-      <ul className="mt-5 ml-">{boardItems}</ul>
+      <ul className="mt-5 ml-">
+        {boardItems}
+        <BoardItem
+          name="+ Create New Board"
+          onSelectBoard={handleNewBoard}
+          type="add"
+        />
+      </ul>
     </>
   );
 }
