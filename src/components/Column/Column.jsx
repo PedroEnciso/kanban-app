@@ -3,7 +3,7 @@ import Task from "../Tasks/Task";
 
 function Column({ column, columnList }) {
   return (
-    <div>
+    <div className="min-w-[280px]">
       <h2>
         <HeadingS>
           {column.name} ({column.tasks.length})
