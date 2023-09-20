@@ -1,6 +1,7 @@
 import { useContext } from "react";
 
 import BoardItem from "./BoardItem";
+import ThemeSelector from "./ThemeSelector";
 import HeadingS from "../UI/Typography/HeadingS";
 import BoardContext from "../../store/board-context";
 
@@ -41,6 +42,7 @@ function SelectBoardContainer({ onClose }) {
           type="add"
         />
       </ul>
+      <ThemeSelector />
     </>
   );
 }
