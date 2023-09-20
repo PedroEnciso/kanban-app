@@ -16,7 +16,7 @@ function Nav() {
   const boardCtx = useContext(BoardContext);
   const { boards, displayBoardIndex } = boardCtx;
 
-  const handleToggleSelectBoard = (e) => {
+  const handleToggleSelectBoard = () => {
     setIsShowingSelectBoard((prev) => !prev);
   };
 
