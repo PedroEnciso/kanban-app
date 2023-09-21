@@ -15,19 +15,19 @@ const EMPTY_DATA = {
 
 const boardDataReducer = (state, action) => {
   if (action.type === "ADD_TASK") {
-    console.log(`Adding task to col ${action.columnId}`, action.task);
     const updatedBoard = [...state.boards];
     let currentBoardColumns = updatedBoard[state.displayBoardIndex].columns;
     let columnIndex = currentBoardColumns.findIndex(
       (col) => col.id === action.columnId
     );
     currentBoardColumns[columnIndex].tasks.push(action.task);
-    console.log(updatedBoard);
+
+    // save to localStorage
+    localStorage.setItem("boards", JSON.stringify(updatedBoard));
     return { boards: updatedBoard, displayBoardIndex: state.displayBoardIndex };
   }
 
   if (action.type === "UPDATE_TASK") {
-    console.log(`Updating task ${action.task.title} to ${action.columnId}`);
     // get the old column that contained action.task
     const previousColumnIndex = state.boards[
       state.displayBoardIndex
@@ -41,7 +41,6 @@ const boardDataReducer = (state, action) => {
       console.log("status has not changed");
     } else {
       // delete task in the old column and add it to the new column
-      console.log("status has changed");
       const updatedBoards = [...state.boards];
       // remove task in old column
       let columnWithDeletedTask =
@@ -64,6 +63,8 @@ const boardDataReducer = (state, action) => {
       action.task.status = columnWithAddedTask.name;
       columnWithAddedTask.tasks.push(action.task);
 
+      // save to localStorage
+      localStorage.setItem("boards", JSON.stringify(updatedBoards));
       return {
         boards: updatedBoards,
         displayBoardIndex: state.displayBoardIndex,
@@ -82,6 +83,13 @@ const boardDataReducer = (state, action) => {
     };
   }
 
+  if (action.type === "BOARDS_FROM_LOCALSTORAGE") {
+    return {
+      boards: action.boards,
+      displayBoardIndex: state.displayBoardIndex,
+    };
+  }
+
   return EMPTY_DATA;
 };
 
@@ -91,7 +99,23 @@ function BoardContextProvider({ children }) {
     DUMMY_STATE
   );
 
+  // check if data has been saved in localStorage
+  // if no data in localStorage, use DummyData
+  // localStorage data will be updated whenever boardDataReducer saves state
+  useEffect(() => {
+    const data = localStorage.getItem("boards");
+    if (data) {
+      // data was found in LocalStorage
+      dispatchBoardData({
+        type: "BOARDS_FROM_LOCALSTORAGE",
+        boards: JSON.parse(data),
+      });
+    }
+  }, []);
+
   const { boards, displayBoardIndex } = boardData;
+
+  console.log(boards);
 
   let displayColumns = [];
   if (boards.length > 0) {
