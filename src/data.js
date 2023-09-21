@@ -471,35 +471,42 @@ const data = {
           name: "Now",
           tasks: [
             {
+              id: "b3c1t1",
               title: "Launch version one",
               description: "",
               status: "",
               subtasks: [
                 {
+                  id: "b3c1t1s1",
                   title: "Launch privately to our waitlist",
                   isCompleted: false,
                 },
                 {
+                  id: "b3c1t1s2",
                   title: "Launch publicly on PH, HN, etc.",
                   isCompleted: false,
                 },
               ],
             },
             {
+              id: "b3c1t2",
               title: "Review early feedback and plan next steps for roadmap",
               description:
                 "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
               status: "",
               subtasks: [
                 {
+                  id: "b3c1t2s1",
                   title: "Interview 10 customers",
                   isCompleted: false,
                 },
                 {
+                  id: "b3c1t2s2",
                   title: "Review common customer pain points and suggestions",
                   isCompleted: false,
                 },
                 {
+                  id: "b3c1t2s3",
                   title: "Outline next steps for our roadmap",
                   isCompleted: false,
                 },
