@@ -34,7 +34,6 @@ const boardDataReducer = (state, action) => {
     ].columns.findIndex((col) => col.name === action.task.status);
     const previousColumn =
       state.boards[state.displayBoardIndex].columns[previousColumnIndex];
-    console.log(previousColumn);
 
     if (previousColumn.id === action.columnId) {
       // update the task with the new info
@@ -114,8 +113,6 @@ function BoardContextProvider({ children }) {
   }, []);
 
   const { boards, displayBoardIndex } = boardData;
-
-  console.log(boards);
 
   let displayColumns = [];
   if (boards.length > 0) {
