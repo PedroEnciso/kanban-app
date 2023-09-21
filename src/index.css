@@ -29,4 +29,8 @@
     background-position: right center;
     background-position: calc(100% - 16px) center;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
