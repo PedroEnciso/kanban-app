@@ -41,7 +41,7 @@ function Modal({ children, onModalClose, isNavModal = false }) {
   ]);
 
   let overlayClasses =
-    "rounded-md p-6 w-full max-w-[480px] max-h-[80vh] sm:max-h-[700px] overflow-y-scroll";
+    "rounded-md p-6 w-full max-w-[480px] max-h-[80vh] sm:max-h-[700px] overflow-y-scroll no-scrollbar";
   if (isNavModal) {
     overlayClasses =
       "absolute top-0 left-[56px] min-w-[264px] mt-[88px] py-4 pr-6 bg-white dark:bg-darkGray rounded-lg text-left";
