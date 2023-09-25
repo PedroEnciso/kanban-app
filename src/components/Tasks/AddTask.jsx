@@ -15,10 +15,6 @@ function AddTask({ onModalClose }) {
 
   const { register, handleSubmit } = useForm();
 
-  function stopPropagation(e) {
-    e.stopPropagation();
-  }
-
   const findStatusName = (id) => {
     let status = displayColumns.filter((col) => col.id === id);
     return status[0].name;
@@ -52,11 +48,7 @@ function AddTask({ onModalClose }) {
     onModalClose();
   };
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      onClick={stopPropagation}
-      className="flex flex-col gap-6"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <h2>
         <HeadingL>Add New Task</HeadingL>
       </h2>
