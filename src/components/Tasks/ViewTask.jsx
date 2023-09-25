@@ -13,15 +13,11 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
   const boardCtx = useContext(BoardContext);
   const { register, watch } = useForm();
 
-  console.log(columnList);
   const currentColumn = columnList.filter((col) => task.status === col.name);
   let currentStatus = currentColumn[0].id;
 
-  const onClose = (status) => {
-    if (status === currentStatus) {
-      return;
-    }
-    boardCtx.updateTask(task, status);
+  const onClose = (newStatus = null, updatedSubtasks = []) => {
+    boardCtx.updateTask(task, newStatus, updatedSubtasks);
   };
 
   useEffect(() => {
@@ -31,8 +27,30 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
     });
     return () => {
       if (status) {
-        onClose(status.status);
+        console.log(status, currentStatus);
+        let hasStatusChanged = status.status !== currentStatus;
+        let haveSubtasksChanged = false;
+        let updatedSubtasks = task.subtasks.map((sub) => {
+          if (sub.isCompleted !== status[sub.title]) {
+            haveSubtasksChanged = true;
+            return {
+              ...sub,
+              isCompleted: status[sub.title],
+            };
+          }
+          return sub;
+        });
+        if (hasStatusChanged && !haveSubtasksChanged) {
+          // task status has updated, but subtasks have not updated
+          onClose(status.status);
+        } else if (haveSubtasksChanged && !hasStatusChanged) {
+          // subtasks have been updated, but status not updated
+          onClose(null, updatedSubtasks);
+        } else if (hasStatusChanged && haveSubtasksChanged) {
+          onClose(status.status, updatedSubtasks);
+        }
       }
+
       sub.unsubscribe();
     };
   }, [watch]);
@@ -42,11 +60,8 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
     taskDescription = "This task does not have a description yet.";
   }
 
-  function stopPropagation(e) {
-    e.stopPropagation();
-  }
   return (
-    <div onClick={stopPropagation} className="flex flex-col gap-5">
+    <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
       <div className="flex gap-4 items-center justify-between">
         <h2 className="">
           <HeadingL>{task.title}</HeadingL>
@@ -62,19 +77,18 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
       <BodyL>{taskDescription}</BodyL>
       <div className="space-y-3">
         <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
-        <SubtaskContainer subtasks={task.subtasks} />
+        <SubtaskContainer subtasks={task.subtasks} register={register} />
       </div>
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
+      <div className="space-y-2">
         <BodyM>Current Status</BodyM>
         <Select
-          onStatusChange={onClose}
           name="status"
           register={register}
           defaultValue={currentStatus}
           optionList={columnList}
         />
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
 
