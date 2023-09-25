@@ -35,10 +35,12 @@ const boardDataReducer = (state, action) => {
     const previousColumn =
       state.boards[state.displayBoardIndex].columns[previousColumnIndex];
 
-    if (previousColumn.id === action.columnId) {
-      // update the task with the new info
-      console.log("status has not changed");
-    } else {
+    if (action.updatedSubtasks.length > 0) {
+      // update subtasks if they changed
+      action.task.subtasks = action.updatedSubtasks;
+    }
+
+    if (action.columnId && previousColumn.id !== action.columnId) {
       // delete task in the old column and add it to the new column
       const updatedBoards = [...state.boards];
       // remove task in old column
@@ -125,8 +127,13 @@ function BoardContextProvider({ children }) {
     dispatchBoardData({ type: "ADD_TASK", task: task, columnId: columnId });
   };
 
-  const updateTaskHandler = (task, columnId) => {
-    dispatchBoardData({ type: "UPDATE_TASK", task: task, columnId: columnId });
+  const updateTaskHandler = (task, columnId, updatedSubtasks) => {
+    dispatchBoardData({
+      type: "UPDATE_TASK",
+      task: task,
+      columnId: columnId,
+      updatedSubtasks: updatedSubtasks,
+    });
   };
 
   const updateDisplayIndexHandler = (index) => {
