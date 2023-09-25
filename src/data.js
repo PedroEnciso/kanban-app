@@ -401,7 +401,7 @@ const data = {
               id: "b2c1t2",
               title: "Share on Show HN",
               description: "",
-              status: "",
+              status: "Todo",
               subtasks: [
                 {
                   id: "b2c1t2s1",
@@ -424,7 +424,7 @@ const data = {
               id: "b2c1t3",
               title: "Write launch article to publish on multiple channels",
               description: "",
-              status: "",
+              status: "Todo",
               subtasks: [
                 {
                   id: "b2c1t3s1",
@@ -474,7 +474,7 @@ const data = {
               id: "b3c1t1",
               title: "Launch version one",
               description: "",
-              status: "",
+              status: "Now",
               subtasks: [
                 {
                   id: "b3c1t1s1",
@@ -483,7 +483,7 @@ const data = {
                 },
                 {
                   id: "b3c1t1s2",
-                  title: "Launch publicly on PH, HN, etc.",
+                  title: "Launch publicly on PH, HN, etc",
                   isCompleted: false,
                 },
               ],
@@ -493,7 +493,7 @@ const data = {
               title: "Review early feedback and plan next steps for roadmap",
               description:
                 "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
-              status: "",
+              status: "Now",
               subtasks: [
                 {
                   id: "b3c1t2s1",
