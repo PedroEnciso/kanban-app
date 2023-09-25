@@ -27,7 +27,6 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
     });
     return () => {
       if (status) {
-        console.log(status, currentStatus);
         let hasStatusChanged = status.status !== currentStatus;
         let haveSubtasksChanged = false;
         let updatedSubtasks = task.subtasks.map((sub) => {
