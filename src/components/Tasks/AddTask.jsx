@@ -74,7 +74,6 @@ function AddTask({ onModalClose, task, statusId }) {
   const title = isEditingTask ? task.title : null;
   const description = isEditingTask ? task.description : null;
   const status = isEditingTask ? findStatusId(task.status) : null;
-  console.log(status);
   const buttonText = isEditingTask ? "Save Changes" : "Create Task";
   const subtasks = isEditingTask ? task.subtasks : null;
 
