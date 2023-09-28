@@ -1,8 +1,8 @@
 import React from "react";
 
-function TaskOptions({ onDeleteTask }) {
+function TaskOptions({ onDeleteTask, onEditTask }) {
   const editTaskHandler = () => {
-    console.log("show edit screen");
+    onEditTask();
   };
 
   const deleteTaskHandler = () => {
