@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import Modal from "../UI/Modal";
 import AddTask from "../Tasks/AddTask";
 import BoardContext from "../../store/board-context";
-import SelectBoardContainer from "../SelectBoard/SelectBoardContainer";
+import BoardController from "../Boards/BoardController";
 
 import logo from "../../assets/logo-mobile.svg";
 import chevronDown from "../../assets/icon-chevron-down.svg";
@@ -12,12 +12,13 @@ import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 
 function Nav() {
   const [isShowingModal, setIsShowingModal] = useState(false);
-  const [isShowingSelectBoard, setIsShowingSelectBoard] = useState(false);
+  const [isShowingBoardController, setIsShowingBoardController] =
+    useState(false);
   const boardCtx = useContext(BoardContext);
   const { boards, displayBoardIndex } = boardCtx;
 
-  const handleToggleSelectBoard = () => {
-    setIsShowingSelectBoard((prev) => !prev);
+  const handleToggleBoardController = () => {
+    setIsShowingBoardController((prev) => !prev);
   };
 
   const handleToggleModal = () => {
@@ -32,15 +33,14 @@ function Nav() {
             <img src={logo} alt="KanBan logo." />
           </div>
           <button
-            onClick={handleToggleSelectBoard}
+            onClick={handleToggleBoardController}
+            disabled={isShowingBoardController}
             className="flex items-center gap-2 relative"
           >
             <span>{boards[displayBoardIndex].name}</span>
             <img src={chevronDown} alt="View boards." />
-            {isShowingSelectBoard && (
-              <Modal isNavModal={true}>
-                <SelectBoardContainer onClose={handleToggleSelectBoard} />
-              </Modal>
+            {isShowingBoardController && (
+              <BoardController onClose={handleToggleBoardController} />
             )}
           </button>
         </div>
