@@ -77,6 +77,26 @@ const boardDataReducer = (state, action) => {
     };
   }
 
+  if (action.type === "DELETE_TASK") {
+    const updatedBoards = [...state.boards];
+    const currentBoard = updatedBoards[state.displayBoardIndex];
+    const currentColumnIndex = currentBoard.columns.findIndex(
+      (col) => col.id === action.statusId
+    );
+    const currentColumn = currentBoard.columns[currentColumnIndex];
+    const updatedColumnTasks = currentColumn.tasks.filter(
+      (task) => task.id !== action.id
+    );
+    currentColumn.tasks = updatedColumnTasks;
+
+    localStorage.setItem("boards", JSON.stringify(updatedBoards));
+
+    return {
+      boards: updatedBoards,
+      displayBoardIndex: state.displayBoardIndex,
+    };
+  }
+
   if (action.type === "UPDATE_BOARD_INDEX") {
     return {
       boards: state.boards,
@@ -136,6 +156,10 @@ function BoardContextProvider({ children }) {
     });
   };
 
+  const deleteTaskHandler = (id, statusId) => {
+    dispatchBoardData({ type: "DELETE_TASK", id: id, statusId: statusId });
+  };
+
   const updateDisplayIndexHandler = (index) => {
     dispatchBoardData({ type: "UPDATE_BOARD_INDEX", index: index });
   };
@@ -145,6 +169,7 @@ function BoardContextProvider({ children }) {
     displayBoardIndex: displayBoardIndex,
     displayColumns: displayColumns,
     addTask: addTaskHandler,
+    deleteTask: deleteTaskHandler,
     updateTask: updateTaskHandler,
     updateDisplayIndex: updateDisplayIndexHandler,
   };
