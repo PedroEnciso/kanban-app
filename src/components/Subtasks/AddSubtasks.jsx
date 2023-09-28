@@ -9,12 +9,12 @@ const subArray = [
   { title: "", placeholder: "e.g. Drink coffee and smile" },
 ];
 
-const emptySubtask = {
+let emptySubtask = {
   title: "",
   placeholder: "New subtask",
 };
 
-function AddSubtasks({ prevSubtasks = null, register }) {
+function AddSubtasks({ prevSubtasks = null, register, type = "SUBTASK" }) {
   const [subtasks, setSubtasks] = useState(prevSubtasks || subArray);
 
   const handleNewSubtask = (e) => {
@@ -31,10 +31,21 @@ function AddSubtasks({ prevSubtasks = null, register }) {
     });
   };
 
+  let label = "Subtasks";
+  let buttonText = "+Add New Subtask";
+  if (type === "BOARD") {
+    label = "Board Columns";
+    buttonText = "+Add New Column";
+    emptySubtask = {
+      title: "",
+      placeholder: "New column",
+    };
+  }
+
   return (
     <fieldset className="space-y-2">
       <legend>
-        <BodyM>Subtasks</BodyM>
+        <BodyM>{label}</BodyM>
       </legend>
       {subtasks.map((sub, index) => (
         <div key={`s${index}`} className="flex gap-4">
@@ -60,7 +71,7 @@ function AddSubtasks({ prevSubtasks = null, register }) {
       ))}
       <div className="pt-1">
         <ButtonPrimary
-          text="+Add New Subtask"
+          text={buttonText}
           buttonType="secondary"
           onButtonClick={handleNewSubtask}
         />
