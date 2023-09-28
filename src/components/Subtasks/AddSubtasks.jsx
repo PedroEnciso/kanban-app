@@ -39,6 +39,7 @@ function AddSubtasks({ prevSubtasks = null, register }) {
       {subtasks.map((sub, index) => (
         <div key={`s${index}`} className="flex gap-4">
           <Input
+            defaultValue={sub.title || null}
             register={register}
             name={`subtask${index}`}
             type="text"
