@@ -16,14 +16,28 @@ function ViewTask({
   totalSubtasks,
   statusId,
   showDeleteTask,
+  showEditTask,
   columnList,
 }) {
   const [isShowingOptions, setIsShowingOptions] = useState(false);
   const boardCtx = useContext(BoardContext);
   const { register, watch } = useForm();
 
+  const getStatusName = (id) => {
+    const statusIndex = columnList.findIndex((col) => col.id === id);
+    return columnList[statusIndex].name;
+  };
+
   const onClose = (newStatus = null, updatedSubtasks = []) => {
-    boardCtx.updateTask(task, newStatus, updatedSubtasks);
+    const updatedTask = { ...task };
+    const oldStatusName = updatedTask.status;
+    if (newStatus) {
+      updatedTask.status = getStatusName(newStatus);
+    }
+    if (updatedSubtasks.length > 0) {
+      updatedTask.subtasks = updatedSubtasks;
+    }
+    boardCtx.updateTask(updatedTask, newStatus, oldStatusName);
   };
 
   useEffect(() => {
@@ -82,7 +96,12 @@ function ViewTask({
             className="w-[4px] h-[16px] sm:w-auto sm:h-auto"
           />
         </button>
-        {isShowingOptions && <TaskOptions onDeleteTask={showDeleteTask} />}
+        {isShowingOptions && (
+          <TaskOptions
+            onDeleteTask={showDeleteTask}
+            onEditTask={showEditTask}
+          />
+        )}
       </div>
       <BodyL>{taskDescription}</BodyL>
       <div className="space-y-3">
