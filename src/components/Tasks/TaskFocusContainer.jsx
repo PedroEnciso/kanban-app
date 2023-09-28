@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 
 import ViewTask from "./ViewTask";
 import DeleteTask from "./DeleteTask";
+import AddTask from "./AddTask";
 import BoardContext from "../../store/board-context";
 
 function TaskFocusContainer(props) {
@@ -17,7 +18,11 @@ function TaskFocusContainer(props) {
     setTaskView("VIEW_TASK");
   };
 
-  const updatedProps = { ...props, showDeleteTask };
+  const showEditTask = () => {
+    setTaskView("EDIT_TASK");
+  };
+
+  const updatedProps = { ...props, showDeleteTask, showEditTask };
 
   if (taskView === "VIEW_TASK") {
     return <ViewTask {...updatedProps} />;
@@ -30,7 +35,13 @@ function TaskFocusContainer(props) {
       />
     );
   } else {
-    return <p>Edit Task</p>;
+    return (
+      <AddTask
+        task={props.task}
+        statusId={props.statusId}
+        onModalClose={showViewTask}
+      />
+    );
   }
 }
 
