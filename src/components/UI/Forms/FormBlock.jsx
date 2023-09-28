@@ -10,7 +10,7 @@ function InputBlock({
   placeholder,
   inputType = "input",
   register,
-  ...rest
+  defaultValue = "",
 }) {
   return (
     <div className="space-y-2">
@@ -23,6 +23,7 @@ function InputBlock({
         placeholder={placeholder}
         inputType={inputType}
         register={register}
+        defaultValue={defaultValue}
       />
     </div>
   );
