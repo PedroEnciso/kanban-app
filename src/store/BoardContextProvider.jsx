@@ -28,26 +28,21 @@ const boardDataReducer = (state, action) => {
   }
 
   if (action.type === "UPDATE_TASK") {
+    // updatedTask, newStatusId = null, oldStatusName = null
     // get the old column that contained action.task
-    const previousColumnIndex = state.boards[
+    const updatedBoards = [...state.boards];
+    const previousColumnIndex = updatedBoards[
       state.displayBoardIndex
-    ].columns.findIndex((col) => col.name === action.task.status);
+    ].columns.findIndex((col) => col.name === action.oldStatusName);
     const previousColumn =
-      state.boards[state.displayBoardIndex].columns[previousColumnIndex];
+      updatedBoards[state.displayBoardIndex].columns[previousColumnIndex];
 
-    if (action.updatedSubtasks.length > 0) {
-      // update subtasks if they changed
-      action.task.subtasks = action.updatedSubtasks;
-    }
-
-    if (action.columnId && previousColumn.id !== action.columnId) {
-      // delete task in the old column and add it to the new column
-      const updatedBoards = [...state.boards];
+    if (action.newStatusId && previousColumn.id !== action.newStatusId) {
       // remove task in old column
       let columnWithDeletedTask =
         updatedBoards[state.displayBoardIndex].columns[previousColumnIndex];
       let deletedTaskList = columnWithDeletedTask.tasks.filter(
-        (task) => task.id !== action.task.id
+        (task) => task.id !== action.updatedTask.id
       );
       // update boards with updated column
       updatedBoards[state.displayBoardIndex].columns[
@@ -56,23 +51,23 @@ const boardDataReducer = (state, action) => {
       // add task to its new column
       const columnWithAddedTaskIndex = updatedBoards[
         state.displayBoardIndex
-      ].columns.findIndex((col) => col.id === action.columnId);
+      ].columns.findIndex((col) => col.id === action.newStatusId);
       const columnWithAddedTask =
         updatedBoards[state.displayBoardIndex].columns[
           columnWithAddedTaskIndex
         ];
-      action.task.status = columnWithAddedTask.name;
-      columnWithAddedTask.tasks.push(action.task);
-
-      // save to localStorage
-      localStorage.setItem("boards", JSON.stringify(updatedBoards));
-      return {
-        boards: updatedBoards,
-        displayBoardIndex: state.displayBoardIndex,
-      };
+      columnWithAddedTask.tasks.push(action.updatedTask);
+    } else {
+      //status has not changed, update the task
+      const taskIndex = previousColumn.tasks.findIndex(
+        (task) => task.id === action.updatedTask.id
+      );
+      previousColumn.tasks[taskIndex] = action.updatedTask;
     }
+
+    localStorage.setItem("boards", JSON.stringify(updatedBoards));
     return {
-      boards: state.boards,
+      boards: updatedBoards,
       displayBoardIndex: state.displayBoardIndex,
     };
   }
@@ -147,12 +142,16 @@ function BoardContextProvider({ children }) {
     dispatchBoardData({ type: "ADD_TASK", task: task, columnId: columnId });
   };
 
-  const updateTaskHandler = (task, columnId, updatedSubtasks) => {
+  const updateTaskHandler = (
+    updatedTask,
+    newStatusId = null,
+    oldStatusName = null
+  ) => {
     dispatchBoardData({
       type: "UPDATE_TASK",
-      task: task,
-      columnId: columnId,
-      updatedSubtasks: updatedSubtasks,
+      updatedTask: updatedTask,
+      newStatusId: newStatusId,
+      oldStatusName: oldStatusName,
     });
   };
 
