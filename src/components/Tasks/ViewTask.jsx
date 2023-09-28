@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import ellipses from "../../assets/icon-vertical-ellipsis.svg";
@@ -7,14 +7,20 @@ import BodyL from "../UI/Typography/BodyL";
 import BodyM from "../UI/Typography/BodyM";
 import SubtaskContainer from "../Subtasks/SubtaskContainer";
 import Select from "../UI/Select";
+import TaskOptions from "./TaskOptions";
 import BoardContext from "../../store/board-context";
 
-function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
+function ViewTask({
+  task,
+  completedSubtasks,
+  totalSubtasks,
+  statusId,
+  showDeleteTask,
+  columnList,
+}) {
+  const [isShowingOptions, setIsShowingOptions] = useState(false);
   const boardCtx = useContext(BoardContext);
   const { register, watch } = useForm();
-
-  const currentColumn = columnList.filter((col) => task.status === col.name);
-  let currentStatus = currentColumn[0].id;
 
   const onClose = (newStatus = null, updatedSubtasks = []) => {
     boardCtx.updateTask(task, newStatus, updatedSubtasks);
@@ -27,7 +33,7 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
     });
     return () => {
       if (status) {
-        let hasStatusChanged = status.status !== currentStatus;
+        let hasStatusChanged = status.status !== statusId;
         let haveSubtasksChanged = false;
         let updatedSubtasks = task.subtasks.map((sub) => {
           if (sub.isCompleted !== status[sub.title]) {
@@ -59,19 +65,24 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
     taskDescription = "This task does not have a description yet.";
   }
 
+  const handleToggleOptions = () => {
+    setIsShowingOptions((prev) => !prev);
+  };
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
-      <div className="flex gap-4 items-center justify-between">
+      <div className="relative flex gap-4 items-center justify-between">
         <h2 className="">
           <HeadingL>{task.title}</HeadingL>
         </h2>
-        <button className="w-fit shrink-0">
+        <button onClick={handleToggleOptions} className="w-fit shrink-0">
           <img
             src={ellipses}
             alt=""
             className="w-[4px] h-[16px] sm:w-auto sm:h-auto"
           />
         </button>
+        {isShowingOptions && <TaskOptions onDeleteTask={showDeleteTask} />}
       </div>
       <BodyL>{taskDescription}</BodyL>
       <div className="space-y-3">
@@ -83,7 +94,7 @@ function ViewTask({ task, completedSubtasks, totalSubtasks, columnList }) {
         <Select
           name="status"
           register={register}
-          defaultValue={currentStatus}
+          defaultValue={statusId}
           optionList={columnList}
         />
       </div>
