@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import Modal from "../UI/Modal";
-import ViewTask from "./ViewTask";
 import HeadingM from "../UI/Typography/HeadingM";
 import BodyM from "../UI/Typography/BodyM";
+import TaskFocusContainer from "./TaskFocusContainer";
 
 function Task({ task, columnList }) {
   const [isShowingFocusedView, setIsShowingFocusedView] = useState(false);
@@ -15,6 +15,9 @@ function Task({ task, columnList }) {
     ++totalSubtasks;
     if (sub.isCompleted) ++completedSubtasks;
   });
+
+  const currentColumn = columnList.filter((col) => task.status === col.name);
+  let currentStatusId = currentColumn[0].id;
 
   const clickHandler = () => {
     setIsShowingFocusedView((prevState) => !prevState);
@@ -35,10 +38,13 @@ function Task({ task, columnList }) {
       </li>
       {isShowingFocusedView && (
         <Modal onModalClose={clickHandler}>
-          <ViewTask
+          <TaskFocusContainer
+            type="VIEW_TASK"
+            onModalClose={clickHandler}
             task={task}
             totalSubtasks={totalSubtasks}
             completedSubtasks={completedSubtasks}
+            statusId={currentStatusId}
             columnList={columnList}
           />
         </Modal>
