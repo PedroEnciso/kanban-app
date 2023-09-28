@@ -22,7 +22,7 @@ function DeleteTask({ name, onCancel, onDelete }) {
         </button>
         <button
           onClick={onCancel}
-          className="text-mainPurple bg-mainPurple/10 hover:bg-mainPurple/20 grow rounded-full transition-colors duration-200"
+          className="text-mainPurple bg-mainPurple/10 hover:bg-mainPurple/25 dark:bg-white dark:hover:white grow rounded-full transition-colors duration-200"
         >
           Cancel
         </button>

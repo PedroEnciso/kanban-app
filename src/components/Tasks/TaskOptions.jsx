@@ -10,9 +10,9 @@ function TaskOptions({ onDeleteTask }) {
   };
 
   return (
-    <div className="absolute top-full left-full translate-x-[-100%] z-50 w-[182px] flex flex-col bg-white rounded-lg text-[13px]">
+    <div className="absolute top-full left-full translate-x-[-100%] z-50 w-[182px] flex flex-col bg-white dark:bg-veryDarkGray rounded-lg text-[13px]">
       <button
-        className="w-full text-left py-4 px-4 text-mediumGray rounded-tl-lg rounded-tr-lg hover:bg-lightGray transition-colors duration-200 "
+        className="w-full text-left py-4 px-4 text-mediumGray rounded-tl-lg rounded-tr-lg hover:bg-lightGray dark:hover:bg-darkGray transition-colors duration-200 "
         onClick={editTaskHandler}
       >
         Edit Task
