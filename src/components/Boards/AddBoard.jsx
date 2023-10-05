@@ -45,11 +45,9 @@ function AddBoard({ onClose }) {
   };
 
   const onSubmit = (data) => {
-    console.log("submiting new board", data);
-    console.log(data.columns[0]);
     const newBoard = createBoard(data.name, data.columns);
-    // addBoard(newBoard);
-    // onClose();
+    addBoard(newBoard);
+    onClose();
   };
 
   return (
