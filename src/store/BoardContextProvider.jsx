@@ -141,8 +141,6 @@ function BoardContextProvider({ children }) {
 
   const { boards, displayBoardIndex } = boardData;
 
-  console.log(boards);
-
   let displayColumns = [];
   if (boards.length > 0) {
     displayColumns = boards[displayBoardIndex].columns.map((col) => {
