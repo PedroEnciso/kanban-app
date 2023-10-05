@@ -4,12 +4,13 @@ const BoardContext = createContext({
   boards: [],
   displayBoardIndex: null,
   displayColumnNames: [],
-  addNewBoard: () => {},
+  addBoard: () => {},
   editBoard: () => {},
   removeBoard: () => {},
   addTask: () => {},
-  removeTask: () => {},
-  editTask: () => {},
+  deleteTask: () => {},
+  updateTask: () => {},
+  updateDisplayIndex: () => {},
 });
 
 export default BoardContext;
