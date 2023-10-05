@@ -15,7 +15,7 @@ function BoardController({ onClose, type = null }) {
   let isNavModal = true;
 
   if (displayType === "ADD_BOARD") {
-    display = <AddBoard />;
+    display = <AddBoard onClose={onClose} />;
     isNavModal = false;
   }
 
