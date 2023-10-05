@@ -14,6 +14,16 @@ const EMPTY_DATA = {
 };
 
 const boardDataReducer = (state, action) => {
+  if (action.type === "ADD_BOARD") {
+    const updatedBoards = [...state.boards];
+    updatedBoards.push(action.board);
+
+    return {
+      boards: updatedBoards,
+      displayBoardIndex: updatedBoards.length - 1,
+    };
+  }
+
   if (action.type === "ADD_TASK") {
     const updatedBoard = [...state.boards];
     let currentBoardColumns = updatedBoard[state.displayBoardIndex].columns;
@@ -131,12 +141,18 @@ function BoardContextProvider({ children }) {
 
   const { boards, displayBoardIndex } = boardData;
 
+  console.log(boards);
+
   let displayColumns = [];
   if (boards.length > 0) {
     displayColumns = boards[displayBoardIndex].columns.map((col) => {
       return { name: col.name, id: col.id };
     });
   }
+
+  const addBoardHandler = (board) => {
+    dispatchBoardData({ type: "ADD_BOARD", board: board });
+  };
 
   const addTaskHandler = (task, columnId) => {
     dispatchBoardData({ type: "ADD_TASK", task: task, columnId: columnId });
@@ -167,6 +183,7 @@ function BoardContextProvider({ children }) {
     boards: boards,
     displayBoardIndex: displayBoardIndex,
     displayColumns: displayColumns,
+    addBoard: addBoardHandler,
     addTask: addTaskHandler,
     deleteTask: deleteTaskHandler,
     updateTask: updateTaskHandler,
