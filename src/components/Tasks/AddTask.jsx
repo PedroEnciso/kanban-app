@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyM from "../UI/Typography/BodyM";
+import InputBlock from "../UI/Forms/InputBlock";
 import Select from "../UI/Select";
 import FormBlock from "../UI/Forms/FormBlock";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
@@ -11,7 +12,11 @@ import BoardContext from "../../store/board-context";
 
 function AddTask({ onModalClose, task, statusId }) {
   const { displayColumns, addTask, updateTask } = useContext(BoardContext);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   const isEditingTask = Boolean(task);
 
@@ -82,24 +87,33 @@ function AddTask({ onModalClose, task, statusId }) {
       <h2>
         <HeadingL>{modalTitle}</HeadingL>
       </h2>
-      <FormBlock
+
+      <InputBlock
+        label="Title"
+        registerName="title"
+        register={register}
+        errors={errors.title}
+        errorMessage="Can't be empty."
+        placeholder="e.g. Take a coffee break"
+      />
+      {/* <FormBlock
         name="title"
         label="Title"
         type="text"
         defaultValue={title}
         placeholder="e.g. Take a coffee break"
         register={register}
-      />
-      <FormBlock
+      /> */}
+      {/* <FormBlock
         name="description"
         label="Description"
         type="textarea"
         placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
         defaultValue={description}
         register={register}
-      />
-      <AddSubtasks register={register} prevSubtasks={subtasks} />
-      <div className="space-y-2">
+      /> */}
+      {/* <AddSubtasks register={register} prevSubtasks={subtasks} /> */}
+      {/* <div className="space-y-2">
         <BodyM>Status</BodyM>
         <Select
           name="status"
@@ -107,7 +121,7 @@ function AddTask({ onModalClose, task, statusId }) {
           defaultValue={status}
           register={register}
         />
-      </div>
+      </div> */}
       <ButtonPrimary type="submit" text={buttonText} />
     </form>
   );
