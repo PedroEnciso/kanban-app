@@ -4,6 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyM from "../UI/Typography/BodyM";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
+import InputBlock from "../UI/Forms/InputBlock";
 
 import BoardContext from "../../store/board-context";
 
@@ -52,24 +53,14 @@ function AddBoard({ onClose }) {
       <h2>
         <HeadingL>Add New Board</HeadingL>
       </h2>
-      <label className="relative flex flex-col gap-2">
-        <BodyM>Board Name</BodyM>
-        <input
-          type="text"
-          placeholder="e.g. Web Design"
-          className={`w-full py-2 px-4 dark:bg-darkGray border rounded font-medium text-sm leading-relaxed placeholder-black/25 dark:placeholder-white/25 ${
-            errors.name
-              ? "border-red"
-              : "border-linesLight dark:border-linesDark"
-          }`}
-          {...register("name", { required: "Can't be empty." })}
-        />
-        {errors.name && (
-          <p className="absolute top-8 right-4 text-red text-sm leading-relaxed">
-            {errors.name.message}
-          </p>
-        )}
-      </label>
+      <InputBlock
+        label="Board Name"
+        registerName="name"
+        register={register}
+        errors={errors.name}
+        errorMessage="Can't be empty"
+        placeholder="e.g. Web Design"
+      />
       <div className="flex flex-col gap-2">
         <BodyM>Board Columns</BodyM>
         {fields.map((field, index) => {
