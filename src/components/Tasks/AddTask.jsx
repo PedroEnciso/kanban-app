@@ -8,13 +8,30 @@ import StatusSelector from "../UI/StatusSelector";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
 import BoardContext from "../../store/board-context";
 
-const emptySubtasks = [
-  { placeholder: "e.g. Make coffee" },
-  { placeholder: "e.g. Drink coffee and smile" },
-];
-
-function AddTask({ onModalClose, task, statusId }) {
+function AddTask({ onModalClose, task }) {
   const { displayColumns, addTask, updateTask } = useContext(BoardContext);
+
+  let defaultTitle = "";
+  let defaultDescription = "";
+  let defaultSubtasks = [
+    { placeholder: "e.g. Make coffee" },
+    { placeholder: "e.g. Drink coffee and smile" },
+  ];
+  let defaultStatus = displayColumns[0];
+  let modalTitle = "Add New Task";
+  let buttonText = "Create Task";
+
+  if (task) {
+    defaultTitle = task.title;
+    defaultDescription = task.description;
+    defaultSubtasks = task.subtasks;
+    let statusIndex = displayColumns.findIndex(
+      (col) => col.name === task.status
+    );
+    defaultStatus = displayColumns[statusIndex];
+    modalTitle = "Edit Task";
+    buttonText = "Save Changes";
+  }
 
   const {
     register,
@@ -23,7 +40,12 @@ function AddTask({ onModalClose, task, statusId }) {
     watch,
     control,
   } = useForm({
-    defaultValues: { subtasks: emptySubtasks, status: displayColumns[0] },
+    defaultValues: {
+      title: defaultTitle,
+      description: defaultDescription,
+      subtasks: defaultSubtasks,
+      status: defaultStatus,
+    },
   });
   const selectedStatus = watch("status");
 
@@ -32,44 +54,39 @@ function AddTask({ onModalClose, task, statusId }) {
     control,
   });
 
-  const isEditingTask = Boolean(task);
-
-  const findStatusName = (id) => {
-    let status = displayColumns.filter((col) => col.id === id);
-    return status[0].name;
-  };
-
-  const findStatusId = (name) => {
-    let status = displayColumns.filter((col) => col.name === name);
-    return status[0].id;
-  };
-
   const createSubtaskArray = (formData) => {
     return formData.map((sub, index) => {
-      return {
-        id: `s${index}${Math.random()}`,
-        title: sub.title,
-        isCompleted: false,
-      };
+      if (
+        Object.hasOwn(sub, "id") &&
+        Object.hasOwn(sub, "title") &&
+        Object.hasOwn(sub, "isCompleted")
+      ) {
+        return sub;
+      } else {
+        return {
+          id: `s${index}${Math.random()}`,
+          title: sub.title,
+          isCompleted: false,
+        };
+      }
     });
   };
 
   const onSubmit = (data) => {
-    if (isEditingTask) {
+    if (task) {
       const updatedTask = {
         id: task.id,
         title: data.title,
         description: data.description,
-        status: findStatusName(data.status),
-        subtasks: createSubtaskArray(data),
+        status: data.status.name,
+        subtasks: createSubtaskArray(data.subtasks),
       };
       let newColumnId = null;
       if (task.status !== updatedTask.status) {
-        newColumnId = data.status;
+        newColumnId = data.status.id;
       }
       updateTask(updatedTask, newColumnId, task.status);
     } else {
-      // add new task
       const newTask = {
         id: `t${Math.random()}`,
         title: data.title,
@@ -81,13 +98,6 @@ function AddTask({ onModalClose, task, statusId }) {
     }
     onModalClose();
   };
-
-  const modalTitle = isEditingTask ? "Edit Task" : "Add New Task";
-  const title = isEditingTask ? task.title : null;
-  const description = isEditingTask ? task.description : null;
-  const status = isEditingTask ? findStatusId(task.status) : null;
-  const buttonText = isEditingTask ? "Save Changes" : "Create Task";
-  const subtasks = isEditingTask ? task.subtasks : null;
 
   return (
     <form
