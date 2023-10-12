@@ -10,7 +10,6 @@ function InputBlock({
   errorMessage,
   placeholder,
   type = "input",
-  defaultValue = "",
 }) {
   const classes = `w-full py-2 px-4 dark:bg-darkGray border rounded font-medium text-sm leading-relaxed placeholder-black/25 dark:placeholder-white/25 ${
     errors ? "border-red" : "border-linesLight dark:border-linesDark"
@@ -18,7 +17,6 @@ function InputBlock({
 
   let input = (
     <input
-      defaultValue={defaultValue}
       type="text"
       placeholder={placeholder}
       className={classes}
@@ -29,7 +27,6 @@ function InputBlock({
   if (type === "textarea") {
     input = (
       <textarea
-        defaultValue={defaultValue}
         cols="30"
         rows="4"
         placeholder={placeholder}
