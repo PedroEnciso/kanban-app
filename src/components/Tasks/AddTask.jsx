@@ -1,22 +1,36 @@
 import { useContext } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import HeadingL from "../UI/Typography/HeadingL";
-import BodyM from "../UI/Typography/BodyM";
 import InputBlock from "../UI/Forms/InputBlock";
-import Select from "../UI/Select";
-import FormBlock from "../UI/Forms/FormBlock";
+import InputList from "../UI/Forms/InputList";
+import StatusSelector from "../UI/StatusSelector";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
-import AddSubtasks from "../Subtasks/AddSubtasks";
 import BoardContext from "../../store/board-context";
+
+const emptySubtasks = [
+  { placeholder: "e.g. Make coffee" },
+  { placeholder: "e.g. Drink coffee and smile" },
+];
 
 function AddTask({ onModalClose, task, statusId }) {
   const { displayColumns, addTask, updateTask } = useContext(BoardContext);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    watch,
+    control,
+  } = useForm({
+    defaultValues: { subtasks: emptySubtasks, status: displayColumns[0] },
+  });
+  const selectedStatus = watch("status");
+
+  const { fields, remove, append } = useFieldArray({
+    name: "subtasks",
+    control,
+  });
 
   const isEditingTask = Boolean(task);
 
@@ -31,19 +45,13 @@ function AddTask({ onModalClose, task, statusId }) {
   };
 
   const createSubtaskArray = (formData) => {
-    const subtaskArray = [];
-    let count = 1;
-    for (const key in formData) {
-      if (key.includes("subtask") && formData[key] !== "") {
-        subtaskArray.push({
-          id: `s${count}${Date.now()}`,
-          title: formData[key],
-          isCompleted: false,
-        });
-        count++;
-      }
-    }
-    return subtaskArray;
+    return formData.map((sub, index) => {
+      return {
+        id: `s${index}${Math.random()}`,
+        title: sub.title,
+        isCompleted: false,
+      };
+    });
   };
 
   const onSubmit = (data) => {
@@ -66,12 +74,11 @@ function AddTask({ onModalClose, task, statusId }) {
         id: `t${Math.random()}`,
         title: data.title,
         description: data.description,
-        status: findStatusName(data.status),
-        subtasks: createSubtaskArray(data),
+        status: data.status.name,
+        subtasks: createSubtaskArray(data.subtasks),
       };
-      addTask(newTask, data.status);
+      addTask(newTask, data.status.id);
     }
-
     onModalClose();
   };
 
@@ -83,11 +90,13 @@ function AddTask({ onModalClose, task, statusId }) {
   const subtasks = isEditingTask ? task.subtasks : null;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6 relative"
+    >
       <h2>
         <HeadingL>{modalTitle}</HeadingL>
       </h2>
-
       <InputBlock
         label="Title"
         registerName="title"
@@ -96,32 +105,29 @@ function AddTask({ onModalClose, task, statusId }) {
         errorMessage="Can't be empty."
         placeholder="e.g. Take a coffee break"
       />
-      {/* <FormBlock
-        name="title"
-        label="Title"
-        type="text"
-        defaultValue={title}
-        placeholder="e.g. Take a coffee break"
-        register={register}
-      /> */}
-      {/* <FormBlock
-        name="description"
+      <InputBlock
         label="Description"
+        registerName="description"
+        register={register}
         type="textarea"
         placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
-        defaultValue={description}
+      />
+      <InputList
+        title={"Subtasks"}
+        fields={fields}
+        errors={errors}
+        remove={remove}
+        append={append}
         register={register}
-      /> */}
-      {/* <AddSubtasks register={register} prevSubtasks={subtasks} /> */}
-      {/* <div className="space-y-2">
-        <BodyM>Status</BodyM>
-        <Select
-          name="status"
-          optionList={displayColumns}
-          defaultValue={status}
-          register={register}
-        />
-      </div> */}
+        fieldArrayName="subtasks"
+        placeholderName="subtask"
+      />
+      <StatusSelector
+        title="Current Status"
+        control={control}
+        selectedStatus={selectedStatus}
+        displayColumns={displayColumns}
+      />
       <ButtonPrimary type="submit" text={buttonText} />
     </form>
   );
