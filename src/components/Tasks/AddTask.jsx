@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import HeadingL from "../UI/Typography/HeadingL";
 import InputBlock from "../UI/Forms/InputBlock";
 import InputList from "../UI/Forms/InputList";
-import StatusSelector from "../UI/StatusSelector";
+import StatusSelector from "../UI/Forms/StatusSelector";
 import ButtonPrimary from "../UI/Buttons/ButtonPrimary";
 import BoardContext from "../../store/board-context";
 
