@@ -3,7 +3,7 @@ import { createContext } from "react";
 const BoardContext = createContext({
   boards: [],
   displayBoardIndex: null,
-  displayColumnNames: [],
+  displayColumns: [],
   addBoard: () => {},
   editBoard: () => {},
   removeBoard: () => {},
