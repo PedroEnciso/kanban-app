@@ -1,12 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import ellipses from "../../assets/icon-vertical-ellipsis.svg";
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyL from "../UI/Typography/BodyL";
-import BodyM from "../UI/Typography/BodyM";
-import SubtaskContainer from "../Subtasks/SubtaskContainer";
-import Select from "../UI/Select";
+import StatusSelector from "../UI/Forms/StatusSelector";
+import CheckboxDisplay from "../UI/Forms/CheckboxDisplay";
 import TaskOptions from "./TaskOptions";
 import BoardContext from "../../store/board-context";
 
@@ -14,65 +13,63 @@ function ViewTask({
   task,
   completedSubtasks,
   totalSubtasks,
-  statusId,
   showDeleteTask,
   showEditTask,
-  columnList,
 }) {
   const [isShowingOptions, setIsShowingOptions] = useState(false);
-  const boardCtx = useContext(BoardContext);
-  const { register, watch } = useForm();
+  const { updateTask, displayColumns } = useContext(BoardContext);
 
-  const getStatusName = (id) => {
-    const statusIndex = columnList.findIndex((col) => col.id === id);
-    return columnList[statusIndex].name;
-  };
+  const statusIndex = displayColumns.findIndex(
+    (col) => col.name === task.status
+  );
+  const defaultStatus = displayColumns[statusIndex];
 
-  const onClose = (newStatus = null, updatedSubtasks = []) => {
-    const updatedTask = { ...task };
-    const oldStatusName = updatedTask.status;
-    if (newStatus) {
-      updatedTask.status = getStatusName(newStatus);
-    }
-    if (updatedSubtasks.length > 0) {
-      updatedTask.subtasks = updatedSubtasks;
-    }
-    boardCtx.updateTask(updatedTask, newStatus, oldStatusName);
-  };
+  const { register, watch, control } = useForm({
+    defaultValues: {
+      status: defaultStatus,
+      subtasks: task.subtasks,
+    },
+  });
 
+  const { fields } = useFieldArray({
+    name: "subtasks",
+    control,
+  });
+
+  const selectedStatus = watch("status");
+
+  let updatedSubtasks = [...task.subtasks];
+  let updatedStatus = defaultStatus;
   useEffect(() => {
-    let status;
     const sub = watch((data) => {
-      status = data;
+      updatedSubtasks = data.subtasks;
+      updatedStatus = data.status;
     });
-    return () => {
-      if (status) {
-        let hasStatusChanged = status.status !== statusId;
-        let haveSubtasksChanged = false;
-        let updatedSubtasks = task.subtasks.map((sub) => {
-          if (sub.isCompleted !== status[sub.title]) {
-            haveSubtasksChanged = true;
-            return {
-              ...sub,
-              isCompleted: status[sub.title],
-            };
-          }
-          return sub;
-        });
-        if (hasStatusChanged && !haveSubtasksChanged) {
-          // task status has updated, but subtasks have not updated
-          onClose(status.status);
-        } else if (haveSubtasksChanged && !hasStatusChanged) {
-          // subtasks have been updated, but status not updated
-          onClose(null, updatedSubtasks);
-        } else if (hasStatusChanged && haveSubtasksChanged) {
-          onClose(status.status, updatedSubtasks);
-        }
-      }
 
+    return () => {
+      let isUpdated = false;
+      const updatedTask = { ...task };
+      if (updatedStatus.id !== defaultStatus.id) {
+        // status has changed
+        updatedTask.status = updatedStatus.name;
+        isUpdated = true;
+      }
+      const updatedSubtaskArray = task.subtasks.filter(
+        (sub, index) => sub.isCompleted !== updatedSubtasks[index].isCompleted
+      );
+      if (updatedSubtaskArray.length > 0) {
+        // a subtask has been changed
+        updatedTask.subtasks = updatedSubtasks;
+        isUpdated = true;
+      }
+      if (isUpdated) {
+        const newStatus =
+          updatedStatus.id !== defaultStatus.id ? updatedStatus.id : null;
+        updateTask(updatedTask, newStatus, defaultStatus.name);
+      }
       sub.unsubscribe();
     };
-  }, [watch]);
+  }, []);
 
   let taskDescription = task.description;
   if (!task.description) {
@@ -104,19 +101,17 @@ function ViewTask({
         )}
       </div>
       <BodyL>{taskDescription}</BodyL>
-      <div className="space-y-3">
-        <BodyM>Subtasks ({`${completedSubtasks} of ${totalSubtasks}`})</BodyM>
-        <SubtaskContainer subtasks={task.subtasks} register={register} />
-      </div>
-      <div className="space-y-2">
-        <BodyM>Current Status</BodyM>
-        <Select
-          name="status"
-          register={register}
-          defaultValue={statusId}
-          optionList={columnList}
-        />
-      </div>
+      <CheckboxDisplay
+        title={`Subtasks ${completedSubtasks} of ${totalSubtasks}`}
+        fields={fields}
+        register={register}
+      />
+      <StatusSelector
+        title="Status"
+        control={control}
+        selectedStatus={selectedStatus}
+        displayColumns={displayColumns}
+      />
     </form>
   );
 }
