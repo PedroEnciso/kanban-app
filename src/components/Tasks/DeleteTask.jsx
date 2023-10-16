@@ -3,16 +3,21 @@ import React from "react";
 import HeadingL from "../UI/Typography/HeadingL";
 import BodyL from "../UI/Typography/BodyL";
 
-function DeleteTask({ name, onCancel, onDelete }) {
+function DeleteTask({ name, onCancel, onDelete, type = "TASK" }) {
+  let titleType = "task";
+  let question = `Are you sure you want to delete the '${name}' task and its subtasks? This action cannot be reversed.`;
+
+  if (type === "BOARD") {
+    titleType = "board";
+    question = `Are you sure you want to delete the '${name}' board? This action will remove all columns and tasks and cannot be reversed.`;
+  }
+
   return (
     <>
       <h2 className="pb-6">
-        <HeadingL color="text-red">Delete this task?</HeadingL>
+        <HeadingL color="text-red">Delete this {titleType}?</HeadingL>
       </h2>
-      <BodyL>
-        Are you sure you want to delete the {name} task and its subtasks? This
-        action cannot be reversed.
-      </BodyL>
+      <BodyL>{question} </BodyL>
       <div className="pt-6 flex gap-4">
         <button
           onClick={onDelete}
