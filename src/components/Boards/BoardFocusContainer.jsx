@@ -3,8 +3,15 @@ import { useState } from "react";
 import TaskOptions from "../Tasks/TaskOptions";
 import AddBoard from "./AddBoard";
 import Modal from "../UI/Modal";
+import DeleteTask from "../Tasks/DeleteTask";
 
-function BoardFocusContainer({ type, onClose, currentBoard, columns }) {
+function BoardFocusContainer({
+  type,
+  onClose,
+  currentBoard,
+  columns,
+  deleteBoard,
+}) {
   const [view, setView] = useState(type);
 
   const onEdit = () => {
@@ -13,6 +20,15 @@ function BoardFocusContainer({ type, onClose, currentBoard, columns }) {
 
   const onDelete = () => {
     setView("DELETE");
+  };
+
+  const cancelDeleteHandler = () => {
+    onClose();
+  };
+
+  const deleteBoardHandler = () => {
+    deleteBoard(currentBoard.id);
+    onClose();
   };
 
   let content = "no content";
@@ -41,7 +57,16 @@ function BoardFocusContainer({ type, onClose, currentBoard, columns }) {
   }
 
   if (view === "DELETE") {
-    content = <p>DELETEING!</p>;
+    content = (
+      <Modal onModalClose={onClose}>
+        <DeleteTask
+          name={currentBoard.name}
+          onCancel={cancelDeleteHandler}
+          onDelete={deleteBoardHandler}
+          type="BOARD"
+        />
+      </Modal>
+    );
   }
 
   return <>{content}</>;
