@@ -94,10 +94,7 @@ function ViewTask({
           />
         </button>
         {isShowingOptions && (
-          <TaskOptions
-            onDeleteTask={showDeleteTask}
-            onEditTask={showEditTask}
-          />
+          <TaskOptions onDelete={showDeleteTask} onEdit={showEditTask} />
         )}
       </div>
       <BodyL>{taskDescription}</BodyL>
