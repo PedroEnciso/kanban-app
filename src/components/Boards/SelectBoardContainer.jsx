@@ -3,17 +3,15 @@ import { useContext } from "react";
 import BoardItem from "./BoardItem";
 import ThemeSelector from "./ThemeSelector";
 import HeadingS from "../UI/Typography/HeadingS";
-import Modal from "../UI/Modal";
-import AddBoard from "./AddBoard";
 import BoardContext from "../../store/board-context";
 
-function SelectBoardContainer({ onAddBoard }) {
+function SelectBoardContainer({ onAddBoard, onClose }) {
   const { boards, displayBoardIndex, updateDisplayIndex } =
     useContext(BoardContext);
 
   const handleChangeBoard = (index) => {
-    console.log("changing displayBoardIndex to " + index);
     updateDisplayIndex(index);
+    onClose();
   };
 
   const handleNewBoard = () => {
