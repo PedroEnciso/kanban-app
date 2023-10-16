@@ -106,6 +106,13 @@ function AddBoard({ onClose, board, columns }) {
         fieldArrayName="columns"
         placeholderName="column"
       />
+      {board && (
+        <p className="text-red text-sm">
+          *Deleting a column will cause all its tasks and subtasks to be
+          removed. If you removed one by mistake, please click outsidfe of the
+          modal.
+        </p>
+      )}
       <ButtonPrimary type="submit" text={buttonText} />
     </form>
   );
