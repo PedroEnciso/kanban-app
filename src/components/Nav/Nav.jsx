@@ -16,7 +16,7 @@ function Nav() {
   const [isShowingBoardController, setIsShowingBoardController] =
     useState(false);
   const [isShowingBoardOptions, setIsShowingBoardOptions] = useState(false);
-  const { boards, displayBoardIndex, displayColumns } =
+  const { boards, displayBoardIndex, displayColumns, deleteBoard } =
     useContext(BoardContext);
 
   const handleToggleBoardController = () => {
@@ -70,6 +70,7 @@ function Nav() {
               onClose={handleToggleBoardOptions}
               currentBoard={boards[displayBoardIndex]}
               columns={displayColumns}
+              deleteBoard={deleteBoard}
             />
           )}
         </div>
