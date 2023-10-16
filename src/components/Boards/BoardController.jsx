@@ -11,7 +11,9 @@ function BoardController({ onClose, type = null }) {
     setDisplayType("ADD_BOARD");
   };
 
-  let display = <SelectBoardContainer onAddBoard={showAddBoard} />;
+  let display = (
+    <SelectBoardContainer onAddBoard={showAddBoard} onClose={onClose} />
+  );
   let isNavModal = true;
 
   if (displayType === "ADD_BOARD") {
