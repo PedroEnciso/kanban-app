@@ -8,23 +8,32 @@ import InputList from "../UI/Forms/InputList";
 
 import BoardContext from "../../store/board-context";
 
-const emptyBoardArray = [{ title: "Todo" }, { title: "Doing" }];
+function AddBoard({ onClose, board, columns }) {
+  let title = "Add New Board";
+  let buttonText = "Create New Board";
+  let defaultTitle = "";
+  let defaultColumns = [{ title: "Todo" }, { title: "Done" }];
+  if (board) {
+    title = "Edit Board";
+    buttonText = "Save Changes";
+    defaultTitle = board.name;
+    defaultColumns = columns;
+  }
 
-function AddBoard({ onClose }) {
   const {
     register,
     formState: { errors },
     control,
     handleSubmit,
   } = useForm({
-    defaultValues: { columns: emptyBoardArray },
+    defaultValues: { columns: defaultColumns, name: defaultTitle },
   });
   const { fields, remove, append } = useFieldArray({
     name: "columns",
     control,
   });
 
-  const { addBoard } = useContext(BoardContext);
+  const { addBoard, updateBoard } = useContext(BoardContext);
 
   const createBoard = (name, columns) => {
     const newBoard = {
@@ -42,16 +51,42 @@ function AddBoard({ onClose }) {
     return newBoard;
   };
 
+  const createUpdatedBoard = (board, newName, newColumns) => {
+    const updatedBoard = { ...board };
+    updatedBoard.name = newName;
+    const updatedColumns = [];
+    newColumns.forEach((col, index) => {
+      let update = {};
+      if (updatedBoard.columns.length > index) {
+        update = { ...updatedBoard.columns[index], name: col.title };
+      } else {
+        update = {
+          name: col.title,
+          id: `c${Math.random()}`,
+          tasks: [],
+        };
+      }
+      updatedColumns.push(update);
+    });
+    updatedBoard.columns = updatedColumns;
+    return updatedBoard;
+  };
+
   const onSubmit = (data) => {
-    const newBoard = createBoard(data.name, data.columns);
-    addBoard(newBoard);
+    if (board) {
+      const updatedBoard = createUpdatedBoard(board, data.name, data.columns);
+      updateBoard(updatedBoard);
+    } else {
+      const newBoard = createBoard(data.name, data.columns);
+      addBoard(newBoard);
+    }
     onClose();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <h2>
-        <HeadingL>Add New Board</HeadingL>
+        <HeadingL>{title}</HeadingL>
       </h2>
       <InputBlock
         label="Board Name"
@@ -71,7 +106,7 @@ function AddBoard({ onClose }) {
         fieldArrayName="columns"
         placeholderName="column"
       />
-      <ButtonPrimary type="submit" text="Create New Board" />
+      <ButtonPrimary type="submit" text={buttonText} />
     </form>
   );
 }
