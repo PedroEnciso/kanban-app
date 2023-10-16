@@ -43,7 +43,6 @@ function InputList({
           <button
             type="button"
             onClick={() => {
-              console.log(`removing index ${index}`);
               remove(index);
             }}
           >
