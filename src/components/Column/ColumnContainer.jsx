@@ -1,17 +1,24 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import EmptyBoardMessage from "./EmptyBoardMessage";
 import Column from "./Column";
 import BoardContext from "../../store/board-context";
+import Modal from "../UI/Modal";
+import AddBoard from "../Boards/AddBoard";
 
 function ColumnContainer() {
+  const [showNewColumn, setShowNewColumn] = useState(false);
   const boardCtx = useContext(BoardContext);
   const { displayColumns, boards, displayBoardIndex } = boardCtx;
 
   if (displayColumns.length === 0) return <EmptyBoardMessage />;
 
   const newColumnHandler = () => {
-    console.log("adding a new column!");
+    setShowNewColumn((prev) => !prev);
   };
+
+  const updatedColumns = displayColumns.map((col) => {
+    return { title: col.name, id: col.id };
+  });
 
   return (
     <div className="flex gap-6 px-4 overflow-x-scroll grow pb-10">
@@ -21,11 +28,20 @@ function ColumnContainer() {
       <div className="flex items-center bg-linesLight dark:bg-darkGray w-[280px] mt-12 shrink-0 rounded-md ">
         <button
           onClick={newColumnHandler}
-          className="w-full py-8 text-mediumGray hover:text-mainPurple transition-colors duration-300"
+          className="w-full h-full text-mediumGray hover:text-mainPurple transition-colors duration-300"
         >
           +New Column
         </button>
       </div>
+      {showNewColumn && (
+        <Modal onModalClose={newColumnHandler}>
+          <AddBoard
+            onClose={newColumnHandler}
+            board={boards[displayBoardIndex]}
+            columns={updatedColumns}
+          />
+        </Modal>
+      )}
     </div>
   );
 }
