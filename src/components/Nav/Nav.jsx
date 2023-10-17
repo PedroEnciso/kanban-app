@@ -33,7 +33,7 @@ function Nav() {
 
   return (
     <>
-      <nav className="px-4 py-6 flex justify-between items-center bg-white dark:bg-darkGray">
+      <nav className="fixed w-full px-4 py-6 flex justify-between items-center bg-white dark:bg-darkGray">
         <div className="flex gap-4">
           <div>
             <img src={logo} alt="KanBan logo." />
