@@ -8,7 +8,7 @@ import InputList from "../UI/Forms/InputList";
 
 import BoardContext from "../../store/board-context";
 
-function AddBoard({ onClose, board, columns }) {
+function AddBoard({ onClose, board, columns = [] }) {
   let title = "Add New Board";
   let buttonText = "Create New Board";
   let defaultTitle = "";
@@ -17,6 +17,8 @@ function AddBoard({ onClose, board, columns }) {
     title = "Edit Board";
     buttonText = "Save Changes";
     defaultTitle = board.name;
+  }
+  if (columns.length > 0) {
     defaultColumns = columns;
   }
 
