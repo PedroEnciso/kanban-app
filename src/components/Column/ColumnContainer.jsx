@@ -7,10 +7,11 @@ import AddBoard from "../Boards/AddBoard";
 
 function ColumnContainer() {
   const [showNewColumn, setShowNewColumn] = useState(false);
-  const boardCtx = useContext(BoardContext);
-  const { displayColumns, boards, displayBoardIndex } = boardCtx;
+  const { displayColumns, boards, displayBoardIndex } =
+    useContext(BoardContext);
 
-  if (displayColumns.length === 0) return <EmptyBoardMessage />;
+  if (displayColumns.length === 0)
+    return <EmptyBoardMessage board={boards[displayBoardIndex]} />;
 
   const newColumnHandler = () => {
     setShowNewColumn((prev) => !prev);
