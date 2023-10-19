@@ -15,7 +15,7 @@ function ThemeSelector() {
   const classes = hasDarkClass ? "translate-x-5" : "translate-x-0";
 
   return (
-    <div className="mt-4 ml-6 py-[14px] flex justify-center items-center gap-6 bg-lightGray dark:bg-veryDarkGray rounded-md">
+    <div className="py-[14px] flex justify-center items-center gap-6 bg-lightGray dark:bg-veryDarkGray rounded-md">
       <svg
         className="fill-mediumGray"
         width="19"
