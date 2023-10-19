@@ -22,7 +22,7 @@ function ColumnContainer() {
   });
 
   return (
-    <div className="flex gap-6 mt-20 pt-6 px-4 overflow-x-scroll grow pb-10">
+    <div className="flex gap-6 px-4 overflow-x-scroll grow pb-10 md:grid-content md:pt-6">
       {boards[displayBoardIndex].columns.map((column) => (
         <Column key={column.id} column={column} columnList={displayColumns} />
       ))}
