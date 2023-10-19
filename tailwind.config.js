@@ -16,6 +16,11 @@ export default {
       mainPurpleHover: "rgb(var(--main-purple-hover))",
       red: "rgb(var(--red))",
       redHover: "rgb(var(--red-hover))",
+      lightblue: "rgb(var(--lightblue))",
+      lightred: "rgb(var(--lightred))",
+      green: "rgb(var(--green))",
+      pink: "rgb(var(--pink))",
+      orange: "rgb(var(--orange))",
     },
     extend: {
       fontFamily: {

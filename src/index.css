@@ -17,6 +17,12 @@
     --main-purple-hover: 168 164 255;
     --red: 234 85 85;
     --red-hover: 255 152 152;
+
+    --lightblue: 104 151 187;
+    --lightred: 255 115 115;
+    --green: 0 128 128;
+    --pink: 255 192 203;
+    --orange: 255 165 0;
   }
 
   body {
