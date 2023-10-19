@@ -33,4 +33,25 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  .show-sidebar {
+    display: grid;
+    grid-template-rows: 80px auto;
+    grid-template-columns: 300px auto;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar content";
+  }
+
+  .grid-sidebar {
+    grid-area: sidebar;
+  }
+
+  .grid-header {
+    grid-area: header;
+  }
+
+  .grid-content {
+    grid-area: content;
+  }
 }
