@@ -33,8 +33,8 @@ function Nav() {
 
   return (
     <>
-      <nav className="fixed w-full px-4 py-6 flex justify-between items-center bg-white dark:bg-darkGray">
-        <div className="flex gap-4">
+      <nav className="px-4 py-6 flex justify-between items-center bg-white dark:bg-darkGray md:grid-header border-b border-b-linesLight dark:border-b-linesDark">
+        <div className="flex gap-4 md:hidden">
           <div>
             <img src={logo} alt="KanBan logo." />
           </div>
@@ -43,12 +43,19 @@ function Nav() {
             disabled={isShowingBoardController}
             className="flex items-center gap-2 relative"
           >
-            <span>{boards[displayBoardIndex].name}</span>
+            <span className="font-bold text-xl">
+              {boards[displayBoardIndex].name}
+            </span>
             <img src={chevronDown} alt="View boards." />
             {isShowingBoardController && (
               <BoardController onClose={handleToggleBoardController} />
             )}
           </button>
+        </div>
+        <div className="hidden md:block">
+          <span className="font-bold text-xl">
+            {boards[displayBoardIndex].name}
+          </span>
         </div>
         <div className="relative flex gap-4 items-center">
           <button
