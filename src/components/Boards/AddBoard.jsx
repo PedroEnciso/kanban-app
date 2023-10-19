@@ -53,6 +53,15 @@ function AddBoard({ onClose, board, columns = [] }) {
     return newBoard;
   };
 
+  const findColor = (index) => {
+    if (index % 5 === 0) return "lightblue";
+    if (index % 5 === 1) return "lightred";
+    if (index % 5 === 2) return "green";
+    if (index % 5 === 3) return "pink";
+    if (index % 5 === 4) return "orange";
+    return "lightblue";
+  };
+
   const createUpdatedBoard = (board, newName, newColumns) => {
     const updatedBoard = { ...board };
     updatedBoard.name = newName;
@@ -60,11 +69,16 @@ function AddBoard({ onClose, board, columns = [] }) {
     newColumns.forEach((col, index) => {
       let update = {};
       if (updatedBoard.columns.length > index) {
-        update = { ...updatedBoard.columns[index], name: col.title };
+        update = {
+          ...updatedBoard.columns[index],
+          name: col.title,
+          color: findColor(index),
+        };
       } else {
         update = {
           name: col.title,
           id: `c${Math.random()}`,
+          color: findColor(index),
           tasks: [],
         };
       }
