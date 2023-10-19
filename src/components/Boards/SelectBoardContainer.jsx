@@ -40,7 +40,9 @@ function SelectBoardContainer({ onAddBoard, onClose }) {
           type="add"
         />
       </ul>
-      <ThemeSelector />
+      <div className="ml-6 mt-4">
+        <ThemeSelector />
+      </div>
     </>
   );
 }
