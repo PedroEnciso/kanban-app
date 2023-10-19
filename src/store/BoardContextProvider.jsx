@@ -1,7 +1,7 @@
 import { useEffect, useState, useReducer } from "react";
 
 import BoardContext from "./board-context";
-import data from "../data";
+import data from "../newData";
 
 const DUMMY_STATE = {
   boards: data.boards,
