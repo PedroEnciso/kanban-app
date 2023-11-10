@@ -1,28 +1,28 @@
-# My Awesome Project
+# Kanban App
 
-Write a short sentence or two about this project and what it does. Be sure to include a link and a screenshot (we're front end devs so we can actually see our work!).
+This app is my implementation of this [Frontend Mentor challange](https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-HlbB)
 
 **Link to project:** https://kanban-flame.vercel.app/
 
 ![Screenshot of my app](./public/app-screenshot.png)
 
-<!-- ## How It's Made:
+## How It's Made:
 
-**Tech used:** HTML, CSS, JavaScript, Framework of choice
+**Tech used:** React, TailwindCSS
 
-Here's where you can go to town on how you actually built this thing. Write as much as you can here, it's totally fine if it's not too much just make sure you write _something_. If you don't have too much experience on your resume working on the front end that's totally fine. This is where you can really show off your passion and make up for that ten fold.
-
-## Optimizations
-
-_(optional)_
-
-You don't have to include this section but interviewers _love_ that you can not only deliver a final product that looks great but also functions efficiently. Did you write something then refactor it later and the result was 5x faster than the original implementation? Did you cache your assets? Things that you write in this section are **GREAT** to bring up in interviews and you can use this section as reference when studying for technical interviews!
+My main goal for this project was to make an accessible app that is as close to the design mock-ups as possible. I used React Context to handle state management and LocalStorage to persist the state of the app.
 
 ## Lessons Learned:
 
-No matter what your experience level, being an engineer means continuously learning. Every time you build something you always have those _whoa this is awesome_ or _wow I actually did it!_ moments. This is where you should share those moments! Recruiters and interviewers love to see that you're self-aware and passionate about growing.
+I learned about how to create modals using useProtal, and how to control the tabindex to make the app easier to use for keyboard-only users.
 
-## Examples:
+## Optimizations
+
+This app can become more accessible by allowing tasks to be opened with keyboard commands, and by changing the focus to the first element in the modal once a user opens the modal.
+
+Although this app persists data, it uses LocalStorage which does not allow a single user to use the app on mulitple devices. A good optimization would be to add user authentication so that a user can see their kanban boards on multiple devices.
+
+<!-- ## Examples:
 
 Take a look at these couple examples that I have in my own portfolio:
 
