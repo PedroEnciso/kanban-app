@@ -22,12 +22,8 @@ This app can become more accessible by allowing tasks to be opened with keyboard
 
 Although this app persists data, it uses LocalStorage which does not allow a single user to use the app on mulitple devices. A good optimization would be to add user authentication so that a user can see their kanban boards on multiple devices.
 
-<!-- ## Examples:
+## Running this project locally
 
-Take a look at these couple examples that I have in my own portfolio:
-
-**Palettable:** https://github.com/alecortega/palettable
-
-**Twitter Battle:** https://github.com/alecortega/twitter-battle
-
-**Patch Panel:** https://github.com/alecortega/patch-panel -->
+1. Clone this project locally.
+2. Run 'npm install' to install all dependencies.
+3. Run 'npm run dev' to get the project running locally.
