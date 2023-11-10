@@ -4,7 +4,7 @@ Write a short sentence or two about this project and what it does. Be sure to in
 
 **Link to project:** https://kanban-flame.vercel.app/
 
-![Screenshot of my app](https://imgur.com/a/dylBbpq)
+![Screenshot of my app](./public/app-screenshot.png)
 
 <!-- ## How It's Made:
 
