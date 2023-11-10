@@ -25,5 +25,5 @@ Although this app persists data, it uses LocalStorage which does not allow a sin
 ## Running this project locally
 
 1. Clone this project locally.
-2. Run 'npm install' to install all dependencies.
-3. Run 'npm run dev' to get the project running locally.
+2. Run `npm install` to install all dependencies.
+3. Run `npm run dev` to get the project running locally.
